@@ -1,0 +1,135 @@
+@import './color.less';
+@import './anim.less';
+@import './preset/colors.less';
+@import './preset/cursor.less';
+@import './preset/font.less';
+@import './preset/layout.less';
+@import './preset/position.less';
+@import './preset/style.less';
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html {
+  width: 100%;
+  height: 100%;
+  font-family: '黑体';
+  left: 0;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+}
+textarea {
+  font-family: 'Helvetica Neue, Helvetica, Arial, sans-serif';
+}
+body {
+  font-size: 12px;
+  color: #333;
+  background-color: @bdColor;
+  min-width: 1080px;
+  overflow: hidden;
+}
+@media screen and (max-width: 560px) {
+  body {
+    min-width: initial;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+html,body,h1,h2,h3,h4,h5,p,button,ul,li {
+  margin: 0;
+  padding: 0;
+}
+div {
+  box-sizing: border-box;
+}
+h1,h2,h3,h4,h5 {
+  font-weight: bold !important;
+  margin-bottom: 0!important;
+}
+h1 {
+  font-size: @fsObj[xl] * @base-fs + 6;
+}
+h2 {
+  font-size: @fsObj[lg] * @base-fs;
+}
+h3 {
+  font-size: @fsObj[md] * @base-fs;
+}
+h4 {
+  font-size: @fsObj[sm] * @base-fs;
+}
+h5 {
+  font-size: @fsObj[sm] * @base-fs;
+  font-weight: normal;
+}
+li {
+  list-style: none;
+}
+p {
+  white-space: pre-wrap;
+  margin: 0!important;
+}
+pre {
+  white-space: pre-wrap;
+  text-indent: 2em;
+  line-height: @fs * 1.5;
+  font-family: auto;
+}
+a {
+  color: @mainColor;
+}
+input {
+  background: none;
+  border: none;
+  font-size: @fs;
+}
+input:focus {
+  outline: none;
+}
+input:focus-visible {
+  outline: none;
+}
+textarea {
+  border: none;
+  background: none;
+  font-size: @fs;
+}
+textarea:focus {
+  outline: none;
+}
+textarea:focus-visible {
+  outline: none;
+}
+button {
+  border: none;
+  background: none;
+}
+*::-webkit-scrollbar {
+  //display: none;
+}
+#app {
+}
+.top-header--height {
+  //margin-top: @headerHeight;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: @bdColor;
+}
+*::-webkit-scrollbar-thumb:window-inactive {
+    background: @mainColorFade;
+}

@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@useHooks/*": ["src/useHooks/*"],
+      "@libs/*": ["src/libs/*"],
+      "@components/*": ["src/components/*"],
+      "@directive/*": ["src/directive/*"],
+      "@firmPage/*": ["src/pages/firmPage/*"],
+      "@utils/*": ["utils/*"],
+      "@apiService/*": ["src/apiService/*"],
+      "@src/*": ["src/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@views/*": ["src/views/*"],
+      "@controls/*": ["src/views/controls/*"],
+      "@stores/*": ["src/stores/*"],
+      "@myTypes/*": ["../types/*"],
+      "~style/*": ["src/assets/style/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+    "../types/*.d.ts",
+  ],
+  "exclude": [
+    "src/libs/gaodeMap/*.ts"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "rules": {
+    "vue/multi-word-component-names": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-unused-vars": [2],
+    "@typescript-eslint/no-var-requires": "off",
+    "vue/no-parsing-error": "off",
+    "vue/html-self-closing": "off"
+  },
+  "extends": [
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/vue3-recommended"
+  ],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "parser": "@typescript-eslint/parser"
+  }
+}

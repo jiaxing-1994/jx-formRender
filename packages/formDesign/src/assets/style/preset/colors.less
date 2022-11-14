@@ -1,0 +1,50 @@
+@import '../color.less';
+
+@colorObj: {
+  red: @red;
+  blue: @blue;
+  green: @green;
+  white: @white;
+  orange: @orange;
+  black: @black;
+  main: @mainColor;
+}
+each(@colorObj, {
+  .@{key} {
+    color: @value!important;
+  }
+  .@{key}_bg {
+    background-color: @value!important;
+  }
+});
+
+.input_bg {
+  background-color: @inputBgColor;
+}
+.bd_bg {
+  background-color: @bdColor;
+}
+.bg_bg {
+  background-color: @bgColor;
+}
+@mainBgObj: {
+  bg: @mainColor;
+  bg-fade: @mainColorFade;
+  bg-active: @mainColorActive;
+}
+@mainColorObj: {
+  c: @mainColor;
+  c-fade: @mainColorFade;
+  c-active: @mainColorActive;
+}
+each(@mainBgObj, {
+  .main_@{key} {
+    background-color: @value;
+  }
+});
+each(@mainColorObj, {
+  .main_@{key} {
+    color: @value;
+  }
+});
+

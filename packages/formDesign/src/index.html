@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui,viewport-fit=cover"
+  />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/c/font_3469754_llljbir7v5.css"/>
+	<link rel="stylesheet" type="text/css" href="/iconfont.css"/>
+	<script type="text/javascript">
+		window._AMapSecurityConfig = {
+			securityJsCode:'cc47e03815a32912a7e178e7d2b9bb4f',
+		}
+	</script>
+	<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=	db66916b33400870b0c02e3025b9004b"></script>
+	<script src="/ace/ace.js"></script>
+	<script src="/ace/mode_javascript.js"></script>
+	<script src="/ace/ext-language_tools.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="module" src="/index.ts"></script>
+<script src="http://at.alicdn.com/t/font_3230882_uhqnyiubgi.js"></script>
+<script>
+  const baseSize = 100;
+  function setRem () {
+    const scale = document.documentElement.clientWidth / 1920;
+    console.log('scale', scale);
+    document.documentElement.style.fontSize = baseSize + 'px';
+  }
+  setRem();
+</script>
+</body>
+</html>

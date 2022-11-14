@@ -1,0 +1,93 @@
+@import '../color.less';
+
+.bs {
+  box-shadow: @bs;
+}
+
+.bs_r {
+  box-shadow: @bs_r;
+}
+
+.br {
+  border-radius: @br;
+}
+
+.b_solid {
+  border: solid 1px #ececec;
+}
+.b-b_solid {
+  border-bottom: solid 1px #ececec;
+}
+.b-l_solid {
+  border-left: solid 1px #ececec;
+}
+.b-t_solid {
+  border-top: solid 1px #ececec;
+}
+.b-r_solid {
+  border-right: solid 1px #ececec;
+}
+
+@borderObj: {
+  solid: solid;
+  dotted: dotted;
+  sticky: sticky;
+  dashed: dashed;
+}
+
+each(@borderObj, {
+  .b_@{key} {
+    border: @value 1px #ececec;
+  }
+  .b-b_@{key} {
+    border-bottom: @value 1px #ececec;
+  }
+  .b-l_@{key} {
+    border-left: @value 1px #ececec;
+  }
+  .b-t_@{key} {
+    border-top: @value 1px #ececec;
+  }
+  .b-r_@{key} {
+    border-right: @value 1px #ececec;
+  }
+});
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.of_h {
+  overflow: hidden;
+}
+.of_a {
+  overflow: auto;
+}
+.of_v {
+  overflow: visible;
+}
+.of-x_v {
+  overflow-x: visible;
+}
+.of-y_v {
+  overflow-y: visible;
+}
+.block {
+  display: block;
+}
+.inline {
+  display: inline;
+}
+.inline-block {
+  display: inline-block;
+}
+.no-select {
+  user-select: none;
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+

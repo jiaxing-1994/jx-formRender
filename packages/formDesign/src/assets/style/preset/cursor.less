@@ -1,0 +1,11 @@
+@cursorObj: {
+  d: default;
+  p: pointer;
+  m: move;
+  cr: col-resize,
+}
+each(@cursorObj, {
+  .cs-@{key} {
+    cursor: @value;
+  }
+});

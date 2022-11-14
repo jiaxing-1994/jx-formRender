@@ -1,0 +1,138 @@
+@positionObj: {
+  absolute: absolute;
+  fixed: fixed;
+  sticky: sticky;
+}
+each(@positionObj, {
+  .@{key} {
+    position: @value;
+  }
+  .@{key}-c {
+    position: @value;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .@{key}-l {
+    position: @value;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .@{key}-r {
+    position: @value;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .@{key}-t {
+    position: @value;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .@{key}-tl {
+    position: @value;
+    left: 0;
+    top: 0;
+  }
+  .@{key}-tr {
+    position: @value;
+    right: 0;
+    top: 0;
+  }
+  .@{key}-b {
+    position: @value;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .@{key}-full {
+    position: @value;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+});
+
+.relative {
+  position: relative;
+}
+.fixed {
+  position: fixed;
+}
+
+// margin
+@baseSpacing: 10px;
+.loopMargin(@counter) when (@counter > 0) {
+  .mg_@{counter} {
+    margin: (@baseSpacing * @counter);
+  }
+  .mg-x_@{counter} {
+    margin-left: (@baseSpacing * @counter);
+    margin-right: (@baseSpacing * @counter);
+  }
+  .mg-y_@{counter} {
+    margin-top: (@baseSpacing * @counter);
+    margin-bottom: (@baseSpacing * @counter);
+  }
+  .mg-t_@{counter} {
+    margin-top: (@baseSpacing * @counter);
+  }
+  .mg-r_@{counter} {
+    margin-right: (@baseSpacing * @counter);
+  }
+  .mg-b_@{counter} {
+    margin-bottom: (@baseSpacing * @counter);
+  }
+  .mg-l_@{counter} {
+    margin-left: (@baseSpacing * @counter);
+  }
+  .mg-a_@{counter} {
+    margin: (@baseSpacing * @counter) auto;
+  }
+  .loopMargin((@counter - 1));
+}
+.loopMargin(2);
+.mg-a {
+  margin: 0 auto;
+}
+// padding
+.loopPadding(@counter) when (@counter > 0) {
+  .pd_@{counter} {
+    padding: (@baseSpacing * @counter);
+  }
+  .pd-x_@{counter} {
+    padding-left: (@baseSpacing * @counter);
+    padding-right: (@baseSpacing * @counter);
+  }
+  .pd-y_@{counter} {
+    padding-top: (@baseSpacing * @counter);
+    padding-bottom: (@baseSpacing * @counter);
+  }
+  .pd-t_@{counter} {
+    padding-top: (@baseSpacing * @counter);
+  }
+  .pd-r_@{counter} {
+    padding-right: (@baseSpacing * @counter);
+  }
+  .pd-b_@{counter} {
+    padding-bottom: (@baseSpacing * @counter);
+  }
+  .pd-l_@{counter} {
+    padding-left: (@baseSpacing * @counter);
+  }
+  .loopPadding((@counter - 1));
+}
+.loopPadding(2);
+
+.nowrap {
+  white-space: nowrap;
+}
+.mg_clear {
+  margin: 0!important;
+}
+.pd_clear {
+  margin: 0!important;
+}

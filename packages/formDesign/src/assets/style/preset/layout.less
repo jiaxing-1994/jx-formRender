@@ -1,0 +1,67 @@
+@import "./colors.less";
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-left {
+  justify-content: flex-start;
+}
+.flex1{
+  flex:1;
+}
+.flex-right {
+  justify-content: flex-end;
+}
+.flex-between {
+  justify-content: space-between;
+}
+.flex-around {
+  justify-content: space-around;
+}
+.flex-top {
+  align-items: flex-start;
+}
+.flex-bottom {
+  align-items: flex-end;
+}
+.flex-column {
+  flex-direction: column;
+}
+.w_100 {
+  width: 100%;
+}
+.w_50 {
+  width: 50%;
+}
+.w_33 {
+  width: 33.333%;
+}
+.w_25 {
+  width: 25%;
+}
+.w_100 {
+  width: 100%;
+}
+.h_100 {
+  height: 100%;
+}
+
+// 文字布局
+each(@taObj, {
+  .ta_@{key} {
+    text-align: @value;
+  }
+});
+
+@maxCol: 24;
+.loopCol(@counter) when (@counter <= @maxCol) {
+  .col_@{counter} {
+    width: (@counter / @maxCol * 100%);
+  }
+  .loopCol((@counter + 1));
+}
+.loopCol(1);

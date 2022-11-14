@@ -1,0 +1,33 @@
+@import '../color.less';
+
+each(@fsObj, {
+  .fs_@{key} {
+    font-size: @value * @base-fs;
+  }
+});
+
+@fontColorObj: {
+  fc: @fc;
+  fc_6: @fc_6;
+  fc_9: @fc_9;
+  fc_w: @white;
+  fc_b: @black;
+}
+each(@fontColorObj, {
+  .@{key} {
+    color: @value;
+  }
+});
+
+// 字重 font-weight
+@fontWeightObj: {
+  light: 200;
+  normal: 400;
+  bold: 600;
+}
+
+each(@fontWeightObj, {
+  .fw_@{key} {
+    font-weight: @value;
+  }
+});
