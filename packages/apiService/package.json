@@ -2,14 +2,14 @@
   "name": "@lc/apiService",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author" : "",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "@wk-libs/http": "^1.0.0"
+    "@wk-libs/http": "1.0.7"
   }
 }

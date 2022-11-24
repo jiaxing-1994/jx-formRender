@@ -1,0 +1,31 @@
+@import './common/var.less';
+
+.loopBorder(@style, @styleName, @counter) when (@counter > 0) {
+  .bd_@{styleName}-@{counter} {
+    border: @style @counter * @basePX @borderColor;
+  }
+  .bd-l_@{styleName}-@{counter} {
+    border-left: @style @counter * @basePX @borderColor;
+  }
+  .bd-r_@{styleName}-@{counter} {
+    border-right: @style @counter * @basePX @borderColor;
+  }
+  .bd-t_@{styleName}-@{counter} {
+    border-top: @style @counter * @basePX @borderColor;
+  }
+  .bd-b_@{styleName}-@{counter} {
+    border-bottom: @style @counter * @basePX @borderColor;
+  }
+  .loopBorder(@style, @styleName, (@counter - 1));
+}
+.loopBorder(solid, s, 2);
+.loopBorder(dotted, d, 2);
+
+.loopBorderRadius(@counter) when (@counter > 0) {
+  .br {
+    border-radius: @counter * @basePX;
+  }
+  .loopBorderRadius((@counter - 1));
+}
+.loopBorderRadius(2);
+

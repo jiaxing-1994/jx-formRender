@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve:formDesign": "pnpm -C packages/formDesign serve"
+    "serve:eg": "pnpm -C example serve",
+    "serve:formDesign": "pnpm -C packages/formDesign serve",
+    "build:style": "pnpm -C packages/style build"
   },
   "keywords": [],
   "author": "",

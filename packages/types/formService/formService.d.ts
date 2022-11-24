@@ -1,15 +1,13 @@
-import { FormBaseInfo } from "../form/formInfo";
-import { CpnInfo } from "../form/cpns";
-import { Configuration } from "../form/configuration";
+import { FormBaseInfo, CpnInfo, Configuration } from "../form";
 
 // 表单参数
-declare interface FormQuery {
+export interface FormQuery {
   form: Partial<FormBaseInfo>;
   cpns: Partial<CpnInfo>;
   configuration: Partial<Configuration>;
 }
 
-declare interface ExportResult {
+export interface ExportResult {
   failNum: number;
   fileUrl: string;
   successNum: number;

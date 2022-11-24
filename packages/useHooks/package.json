@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@lc/apiService": "workspace:^1.0.0",
+    "@lc/constants": "workspace:^1.0.0"
+  }
 }

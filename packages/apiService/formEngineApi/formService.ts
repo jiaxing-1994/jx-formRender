@@ -1,6 +1,12 @@
 import Http, { ApiServeType } from "../http";
-import { Form, FormBaseInfo, RegionType } from "@lc/types/form";
-import { FormQuery, ExportResult, FormListQuery } from "@lc/types/formService/formService";
+import {
+  Form,
+  FormBaseInfo,
+  RegionType,
+  FormQuery,
+  ExportResult,
+  FormListQuery,
+} from "../../types";
 
 enum Api {
   addForm = "/form",

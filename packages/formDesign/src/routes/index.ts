@@ -15,7 +15,6 @@ const generateRoute = (): RouteConfigSingleView[] => {
       if (namePaths.length > 1) {
         namePaths.pop();
       }
-      console.log(namePaths);
       routers.push({
         path: "/" + namePaths.join("/"),
         name: namePaths.join("/"),

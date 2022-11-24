@@ -1,0 +1,72 @@
+@positionObj: {
+  absolute: absolute;
+  fixed: fixed;
+  sticky: sticky;
+}
+each(@positionObj, {
+  .@{key} {
+    position: @value;
+  }
+  .@{key}-c {
+    position: @value;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .@{key}-l {
+    position: @value;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .@{key}-r {
+    position: @value;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .@{key}-t {
+    position: @value;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .@{key}-tl {
+    position: @value;
+    left: 0;
+    top: 0;
+  }
+  .@{key}-tr {
+    position: @value;
+    right: 0;
+    top: 0;
+  }
+  .@{key}-br {
+    position: @value;
+    right: 0;
+    bottom: 0;
+  }
+  .@{key}-b {
+    position: @value;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .@{key}-full {
+    position: @value;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+});
+
+.ta_c {
+  text-align: center;
+}
+.ta_l {
+  text-align: left;
+}
+.ta_r {
+  text-align: right;
+}

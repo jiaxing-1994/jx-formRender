@@ -1,0 +1,18 @@
+@borderColor: #ececec;
+
+@basePX: 1px;
+@fsObj: {
+  xxs: 10; // 12px
+  xs: 12; // 12px
+  sm: 14; // 14px
+  md: 16; // 16px
+  lg: 18; // 18px
+  xl: 20; // 20px
+  xxl: 24; // 24px
+}
+@fs_xs: @fsObj[xs] * @@basePX;
+@fs_sm: @fsObj[sm] * @basePX;
+@fs_md: @fsObj[md] * @basePX;
+@fs_lg: @fsObj[lg] * @basePX;
+@fs_xl: @fsObj[xl] * @basePX;
+@fs: @fsObj[sm] * @basePX;

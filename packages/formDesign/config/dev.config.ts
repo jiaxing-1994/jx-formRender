@@ -1,4 +1,4 @@
-const port = 8094;
+const port = 8095;
 
 module.exports = {
   base: "/",

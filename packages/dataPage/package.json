@@ -1,0 +1,17 @@
+{
+  "name": "@lc/dataPage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "install.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lc/pcComponents": "workspace:^1.0.0",
+    "@lc/style": "workspace:^1.0.0",
+    "@lc/useHooks": "workspace:^1.0.0"
+  }
+}

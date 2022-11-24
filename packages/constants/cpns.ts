@@ -1,6 +1,6 @@
-// 不能做搜索的控件
-import { ControlDetailType } from "@low-code/types/cpns";
+import { CpnInfo } from "../types/index.d";
 
+// 不能做搜索的控件
 export const canNotSearchCpns = [
   "FILE",
   "WORD",
@@ -53,6 +53,7 @@ export const canIndices = [
 // 能鉴权的控件
 export const canAuthority = ["SELECT", "ADMINISTRATION_REGION"];
 
+// 类型与中文关系
 export const cpnsName: Record<string, string> = {
   TEXT: "短文本",
   TEXTAREA: "长文本",
@@ -78,11 +79,7 @@ export const cpnsName: Record<string, string> = {
   BUTTON: "按钮",
   SWITCH: "开关",
 };
-export interface SearchMarkDetailType {
-  name: string;
-  symbol: string;
-  value: string;
-}
+
 export const searchMarkDetail: Record<string, { name: string; symbol: string; value: string }> = {
   regex: {
     name: "模糊查询",
@@ -179,7 +176,7 @@ export const cpnIcon: Record<string, string> = {
   DEFAULT: "f-kaifazhong",
 };
 
-const baseCpns: ControlDetailType[] = [
+const baseCpns: Partial<CpnInfo>[] = [
   {
     label: "短文本",
     cpnType: "TEXT",
@@ -314,7 +311,7 @@ const baseCpns: ControlDetailType[] = [
   },
 ];
 
-const advanceCpns: ControlDetailType[] = [
+const advanceCpns: Partial<CpnInfo>[] = [
   {
     label: "地区",
     cpnType: "ADMINISTRATION_REGION",
@@ -351,7 +348,7 @@ const advanceCpns: ControlDetailType[] = [
   { label: "子页面", cpnType: "SUBPAGE", cpnKey: "SUBPAGE", operationalTypes: [], type: "advance" },
 ];
 
-export const layoutCpns: ControlDetailType[] = [
+export const layoutCpns: Partial<CpnInfo>[] = [
   {
     label: "容器组件",
     cpnType: "CONTAINER",
@@ -372,8 +369,8 @@ export const layoutCpns: ControlDetailType[] = [
     cpnKey: "TAB",
     extraInfo: {
       tabs: [
-        { name: "tab1", cpns: [], layoutWithCpns: [], layoutWithCpnKeys: [] },
-        { name: "tab2", cpns: [], layoutWithCpns: [], layoutWithCpnKeys: [] },
+        { name: "tab1", layoutWithCpns: [], layoutWithCpnKeys: [] },
+        { name: "tab2", layoutWithCpns: [], layoutWithCpnKeys: [] },
       ],
     },
     type: "layout",

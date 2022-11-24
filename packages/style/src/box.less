@@ -1,0 +1,34 @@
+@import "./common/var.less";
+
+@baseSpacing: @basePX * 10;
+.loopMarginAndPadding(@name, @prop, @counter) when (@counter >= 0) {
+  .@{name}_@{counter} {
+    @{prop}: (@baseSpacing * @counter);
+  }
+  .@{name}-x_@{counter} {
+    @{prop}-left: (@baseSpacing * @counter);
+    @{prop}-right: (@baseSpacing * @counter);
+  }
+  .@{name}-y_@{counter} {
+    @{prop}-top: (@baseSpacing * @counter);
+    @{prop}-bottom: (@baseSpacing * @counter);
+  }
+  .@{name}-t_@{counter} {
+    @{prop}-top: (@baseSpacing * @counter);
+  }
+  .@{name}-r_@{counter} {
+    @{prop}-right: (@baseSpacing * @counter);
+  }
+  .@{name}-b_@{counter} {
+    @{prop}-bottom: (@baseSpacing * @counter);
+  }
+  .@{name}-l_@{counter} {
+    @{prop}-left: (@baseSpacing * @counter);
+  }
+  .@{name}-a_@{counter} {
+    @{prop}: (@baseSpacing * @counter) auto;
+  }
+  .loopMarginAndPadding(@name, @prop, (@counter - 1));
+}
+.loopMarginAndPadding(mg, margin, 2);
+.loopMarginAndPadding(pd, padding, 2);

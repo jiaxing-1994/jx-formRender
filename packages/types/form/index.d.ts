@@ -2,10 +2,10 @@ import { FormBaseInfo } from "./formInfo";
 import { Configuration } from "./configuration";
 import { CpnInfo } from "./cpns";
 
-export * from "./cpns";
-export * from "./formInfo";
-export * from "./configuration";
-export * from "./cpns/region";
+export * from "./cpns.d";
+export * from "./formInfo.d";
+export * from "./configuration.d";
+export * from "./cpns/region.d";
 
 export interface Form {
   form: FormBaseInfo;

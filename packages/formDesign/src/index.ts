@@ -1,11 +1,11 @@
 import { createApp, App } from "vue";
-import AppPage from "./App.vue";
-import { setupRouter } from "./router";
 import { registStorage, useGlobleComponents } from "@lc/useHooks";
 import { STORAGE_NAME } from "@lc/constants";
 import installPcComponents from "@lc/pcComponents";
 import installFormRender from "@lc/formRender";
 import { createPinia } from "pinia";
+import AppPage from "./App.vue";
+import { setupRouter } from "./router";
 
 const initApp = (app: App<Element>) => {
   app.use(installPcComponents);

@@ -21,9 +21,7 @@
 <script lang="ts" setup>
 import { inject, PropType } from "vue";
 import { deepCopy, uuid } from "@wk-libs/utils";
-import { ControlFormType } from "@myTypes/cpns";
-import draggable from "vuedraggable";
-import controlItem from "./controlItem.vue";
+import { ControlFormType } from "@myTypes/index.d";
 
 defineProps({
   dragList: {

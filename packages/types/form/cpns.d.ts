@@ -1,3 +1,13 @@
+export enum OperationalTypeEnum {
+  readonly = "readonly",
+  forbidden = "forbidden",
+  hide = "hide",
+  list_hide = "list_hide",
+  app_list_hide = "app_list_hide",
+  add_page_hide = "add_page_hide",
+  detail_page_hide = "detail_page_hide",
+}
+
 export interface CpnInfo {
   cpnType: string;
   cpnKey: string;
@@ -9,11 +19,11 @@ export interface CpnInfo {
   searchMarks: string[];
   showLabel: null | boolean;
   placeholder?: string;
-  defaultValue?: string | number | Array<string | number> | null;
+  defaultValue?: string | number | Array<string | number> | boolean;
   extraInfo?: ExtraInfo | null;
-  validators: RuleType[];
+  validators: any[];
   operationalTypes?: OperationalTypeEnum[];
-  dynamicOpts?: Nullable<string>;
+  dynamicOpts?: string | null;
   additionalInfo?: string;
   belongCpn?: string | null;
   layout?: {
@@ -31,6 +41,8 @@ export interface ExtraInfo {
   subCpns?: CpnInfo[]; // 子表格包含的控件
   rows?: number; // 容器组件行数
   cols?: number; // 容器组件列数
+  layoutWithCpns?: CpnInfo[];
+  layoutWithCpnKeys?: string[];
   colsWidth?: number[];
   cpns?: CpnRowCol[]; // 容器组件包含的控件
   tabs?: TabType[];
@@ -52,4 +64,30 @@ export interface CpnRowCol {
 
 export interface TabType {
   name: string;
+  layoutWithCpns?: CpnInfo[];
+  layoutWithCpnKeys?: string[];
+}
+
+export interface ExtraInfoType {
+  [key: string]: any;
+  options?: OptionType[];
+  searchable?: boolean;
+  sequence?: number;
+  multiSelect?: boolean;
+  allowedRepeat?: boolean;
+  layoutWithCpns?: ControlFormType[][][] | null;
+  layoutWithCpnKeys?: string[][][] | null;
+  subCpns?: CpnInfo[]; // 子表格包含的控件
+  rows?: number; // 容器组件行数
+  cols?: number; // 容器组件列数
+  colsWidth?: number[];
+  cpns?: CpnRowColType[]; // 容器组件包含的控件
+  tabs?: TabType[];
+  location?: LocationEnum;
+}
+
+export interface SearchMarkDetailType {
+  name: string;
+  symbol: string;
+  value: string;
 }

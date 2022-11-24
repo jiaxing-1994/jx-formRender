@@ -18,13 +18,17 @@
       "node"
     ],
     "paths": {
-      "@lc/*": [
+      "lc/*": [
         "packages/*"
       ]
     }
   },
   "include": [
     "*.d.ts",
+    "*.ts",
   ],
-  "files": []
+  "files": [],
+  "exclude": [
+    "node_modules"
+  ]
 }

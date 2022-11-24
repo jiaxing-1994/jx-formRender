@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import designer from "@layouts/designer.vue";
+import Designer from "@layouts/designer.vue";
 import useFormDesignerStore from "@stores/formDesigerStore";
 const formDesignerStore = useFormDesignerStore();
 </script>

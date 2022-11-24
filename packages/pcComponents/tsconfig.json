@@ -14,9 +14,9 @@
       "node",
       "vite/client"
     ],
-    "baseUrl": "./",
-    "paths": {
-      "@myTypes/*": ["../types/*"],
-    }
+    "baseUrl": "./"
   },
+  "exclude": [
+    "node_modules"
+  ]
 }
