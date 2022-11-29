@@ -3,7 +3,7 @@ import WkHttp, { AxiosResponse } from "@wk-libs/http";
 export const ApiServeType: {
   formEngine: string;
 } = {
-  formEngine: `${"http://182.148.114.194:30080" || window.location.origin}/form-engine`,
+  formEngine: `${"http://182.140.209.49:30080" || window.location.origin}/form-engine`,
 };
 const Http = new WkHttp({
   baseUrl: ApiServeType.formEngine,

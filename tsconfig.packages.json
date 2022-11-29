@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "lib": [
-      "ESNext",
+      "ES2015",
       "DOM",
       "DOM.Iterable"
     ],

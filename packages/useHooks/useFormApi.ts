@@ -1,14 +1,28 @@
 // 主要用于获取表单配置数据
-import { getFormDetailByNameService } from "@lc/apiService";
+import { ref } from "vue";
+import { isUseful, isArray } from "@wk-libs/utils";
+import LcApiService from "@lc/apiService";
 import { canNotSearchCpns, canNotShowCpnsInList } from "@lc/constants";
-import { CpnInfo, Form, OperationalTypeEnum } from "../types/index.d";
+import {
+  CpnInfo,
+  Form,
+  ListUrlQuery,
+  OperationalTypeEnum,
+  OptionBodyQuery,
+} from "../types/index.d";
 
+let cacheHeaders: Record<string, string> = {};
 // 表单配置信息相关
-export const useFormConfig = () => {
+export const useFormConfig = (headers: Record<string, string> = {}) => {
+  if (Object.keys(headers).length > 0) {
+    cacheHeaders = headers;
+  }
+  // @ts-ignore
+  const apiService = new LcApiService(cacheHeaders);
   const isMobile = window.location.pathname.indexOf("/mobile/") > -1;
   // 获取表单配置详情
   const getFormDetail = async (tableName: string): Promise<ApiResult<Form>> => {
-    const form = await getFormDetailByNameService({ tableName });
+    const form = await apiService.getFormDetailByNameService({ tableName });
     return form;
   };
   // 过滤隐藏/禁用的控件
@@ -50,7 +64,7 @@ export const useFormConfig = () => {
     return getUsefulCpns(cpns).filter((cpn) => {
       let isShow = true;
       // 1.去掉操作熟悉中配置需要隐藏的控件
-      isShow = !!cpn.operationalTypes?.includes(
+      isShow = !cpn.operationalTypes?.includes(
         isMobile ? OperationalTypeEnum.app_list_hide : OperationalTypeEnum.list_hide
       );
       // 2.去掉约定的无法在列表页中展示的控件
@@ -82,5 +96,82 @@ export const useFormConfig = () => {
   };
 };
 
+// 表格相关
+export const useFormTable = () => {
+  // 获取columns
+  const getTabelColumns = (cpns: CpnInfo[]) => {
+    return cpns.map((cpn) => {
+      return {
+        title: cpn.lable,
+        dataIndex: cpn.cpnKey,
+      };
+    });
+  };
+
+  return {
+    getTabelColumns,
+  };
+};
+
 // 表单实际数据相关
-// export const useFormData = () => {};
+export const useFormData = (headers: Record<string, string>) => {
+  if (Object.keys(headers).length > 0) {
+    cacheHeaders = headers;
+  }
+  // @ts-ignore
+  const apiService = new LcApiService(cacheHeaders);
+  const listData = ref<Record<string, any>[]>([]);
+  // 获取表单列表数据
+  const getFormListData = async (
+    tableName: string,
+    query: OptionBodyQuery[],
+    params: ListUrlQuery
+  ) => {
+    const getListService = await apiService.postFormDataListService(tableName);
+    const res = await getListService(query, params);
+    return res;
+  };
+  // 获取表单详情数据
+  const getFormDetailData = async (tableName: string, id: string) => {
+    const res = await apiService.getFormDataByIdService(tableName, { id });
+    return res;
+  };
+  return {
+    listData,
+    getFormListData,
+    getFormDetailData,
+  };
+};
+
+// 表单工具相关
+export const useFormTools = () => {
+  // 通过搜索值对象和搜索类型对象获取完整的搜索条件参数
+  const getSearchConditionData = (
+    value: Record<string, any>,
+    type: Record<string, string>
+  ): OptionBodyQuery[] => {
+    const result: OptionBodyQuery[] = [];
+    for (const key in value) {
+      // 单独处理数组
+      if (isArray(value[key]) && value[key].length > 0) {
+        result.push({
+          key,
+          type: type[key],
+          value: value[key],
+        });
+      }
+      if (isUseful(value[key]) && !isArray(value[key])) {
+        // 有效值
+        result.push({
+          key,
+          type: type[key],
+          value: value[key],
+        });
+      }
+    }
+    return result;
+  };
+  return {
+    getSearchConditionData,
+  };
+};

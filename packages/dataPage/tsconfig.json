@@ -19,12 +19,12 @@
     ],
     "paths": {
       "lc/*": [
-        "../packages/*"
+        "../../packages/*"
       ]
     }
   },
   "include": [
-    "src/*.d.ts",
+    "**/*.d.ts",
     "**/*.vue",
   ]
 }

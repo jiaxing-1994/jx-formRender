@@ -22,8 +22,20 @@
 .loopBorder(dotted, d, 2);
 
 .loopBorderRadius(@counter) when (@counter > 0) {
-  .br {
+  .br_@{counter} {
     border-radius: @counter * @basePX;
+  }
+  .br-t-r_@{counter} {
+    border-top-right-radius: @counter * @basePX * 5;
+  }
+  .br-t-l_@{counter} {
+    border-top-left-radius: @counter * @basePX * 5;
+  }
+  .br-b-l_@{counter} {
+    border-bottom-left-radius: @counter * @basePX * 5;
+  }
+  .br-b-r_@{counter} {
+    border-bottom-right-radius: @counter * @basePX * 5;
   }
   .loopBorderRadius((@counter - 1));
 }

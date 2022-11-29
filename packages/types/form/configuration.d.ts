@@ -3,6 +3,12 @@ export interface Configuration {
   defaultFieldDisplays: DefaultFieldDisplay[];
   defaultButtonConfig: DefaultButton[] | null;
   defaultPageString: string;
+  orderBy: OrderBy[];
+}
+
+export interface OrderBy {
+  key: string;
+  sort: string;
 }
 
 export interface IndicesDetail {

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, inject, ref, computed, h, PropType } from "vue";
 import * as wkUtils from "@wk-libs/utils";
-import type { ColumnType } from "./wktTable.vue";
+import type { ColumnType } from "./wkTable.vue";
 
 export default defineComponent({
   name: "WkTableCol",

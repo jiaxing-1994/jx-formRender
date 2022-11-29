@@ -1,7 +1,7 @@
 //
 const NAME = "wk";
-export function useNamespace(namespace: string) {
-  const name = `${NAME}-${namespace}`;
+export function useNamespace(namespace: string, hasName = true) {
+  const name = `${hasName ? `${NAME}-` : ""}${namespace}`;
   const getClass = (symbol: string, ...arg: string[]) => {
     let className = name;
     if (arg.length) {

@@ -7,13 +7,13 @@
       left: colLeft,
     }"
   >
-    <p class="w_100 ellipsis">
+    <p class="w_24 ellipsis">
       {{ column.title }}
     </p>
     <div
       v-if="dragCol"
       ref="dragBar"
-      class="drag-bar cs-cr"
+      class="drag-bar"
       :class="{
         'drag-bar_moving': isMoving,
       }"
@@ -109,6 +109,7 @@ export default defineComponent({
 .table-header-col {
   position: absolute;
   height: 50px;
+  padding: 10px;
   top: 0;
   left: 0;
   user-select: none;
@@ -132,6 +133,7 @@ export default defineComponent({
     top: 0;
     right: 0px;
     z-index: 1;
+    cursor: col-resize;
   }
   .drag-bar:hover {
     background-color: #0077dd;

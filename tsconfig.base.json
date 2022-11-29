@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "esnext",
+    "target": "ES2015",
     "module": "esnext",
     "baseUrl": ".",
     "sourceMap": false,
+    "lib": ["ES2015", "DOM.Iterable", "DOM"],
     "moduleResolution": "node",
     "allowJs": false,
     "strict": true,
@@ -15,7 +16,8 @@
     "removeComments": false,
     "rootDir": ".",
     "types": [
-      "node"
+      "node",
+      "vite/client"
     ],
     "paths": {
       "lc/*": [

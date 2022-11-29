@@ -14,7 +14,10 @@
       "node",
       "vite/client"
     ],
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "lc/*": ["../*"]
+    }
   },
   "exclude": [
     "node_modules"

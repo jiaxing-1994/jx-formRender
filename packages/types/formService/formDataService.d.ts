@@ -10,6 +10,6 @@ export enum OrderDirectionEnum {
 }
 
 export interface ListUrlQuery extends PageQuery {
-  orderDirection?: OrderDirectionEnum;
+  orderDirection?: string;
   orderBy?: string;
 }

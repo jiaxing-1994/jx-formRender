@@ -1,9 +1,9 @@
 @max: 24;
-.loop(@name, @counter) when (@counter <= @max) {
+.loop(@name, @styleName, @counter) when (@counter <= @max) {
   .@{name}_@{counter} {
-    @{name}: (@counter / @max * 100%);
+    @{styleName}: (@counter / @max * 100%);
   }
-  .loop(@name, (@counter + 1));
+  .loop(@name, @styleName, (@counter + 1));
 }
-.loop(width, 1);
-.loop(height, 1);
+.loop(w, width, 1);
+.loop(h, height, 1);

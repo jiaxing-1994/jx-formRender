@@ -6,6 +6,7 @@ const concat = require("gulp-concat");
 
 // 要去掉重复bundle
 function bulidLess() {
+  debugger;
   return gulp
     .src("./src/index.less")
     .pipe(
@@ -21,7 +22,5 @@ function bulidLess() {
     )
     .pipe(gulp.dest("dist"));
 }
-
-// 分别打包单独组件样式
 
 exports.default = gulp.series(bulidLess);

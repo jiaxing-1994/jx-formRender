@@ -6,4 +6,8 @@
 import Home from "./views/home.vue";
 </script>
 
-<style scoped></style>
+<style lang="less">
+body {
+  font-size: 12px;
+}
+</style>

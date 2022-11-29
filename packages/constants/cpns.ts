@@ -80,7 +80,7 @@ export const cpnsName: Record<string, string> = {
   SWITCH: "开关",
 };
 
-export const searchMarkDetail: Record<string, { name: string; symbol: string; value: string }> = {
+export const SEARCH_MARK_INFO: Record<string, { name: string; symbol: string; value: string }> = {
   regex: {
     name: "模糊查询",
     symbol: "~",
@@ -133,7 +133,7 @@ export const searchMarkDetail: Record<string, { name: string; symbol: string; va
   },
 };
 
-export const cpnTypeToSearchMarks: Record<string, string[]> = {
+export const CPN_TYPE_TO_SEARCH_MARKS: Record<string, string[]> = {
   TEXT: ["regex", "ne", "is"],
   TEXTAREA: ["regex"],
   RICHTEXT: ["regex"],

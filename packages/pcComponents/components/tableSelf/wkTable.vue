@@ -1,7 +1,7 @@
 <template>
   <div
     ref="tableRef"
-    class="table b_solid br"
+    class="table bd_s-1 br_1"
     :class="{
       table_select: canRowSelect,
     }"
@@ -645,8 +645,7 @@ export default defineComponent({
     });
 
     const isShowHeaderScrollbar = computed(() => {
-      const { isMac, isMobile } = wkUtils.Browser;
-      if (!isScrollY.value || isMobile) {
+      if (!isScrollY.value || wkUtils.isMobile) {
         return false;
       }
       return true;
