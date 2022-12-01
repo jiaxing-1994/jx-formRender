@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useFormTable, useFormConfig } from "@lc/useHooks";
+import { useFormTools, useFormConfig } from "lc/useHooks";
 import { CpnInfo } from "lc/types";
 
 const props = defineProps<{
@@ -17,6 +17,6 @@ const props = defineProps<{
 }>();
 
 const { getTableListCpns } = useFormConfig();
-const { getTabelColumns } = useFormTable();
+const { getTabelColumns } = useFormTools();
 const columns = computed(() => getTabelColumns(getTableListCpns(props.cpns)));
 </script>

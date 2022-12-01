@@ -21,6 +21,7 @@
         name="operateRight"
         :form="formInfo"
         :configuration="configurationInfo"
+        :search-conditions="searchConditions"
       ></slot>
     </div>
   </div>
@@ -36,12 +37,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { isArray } from "@wk-libs/utils";
 import { useFormConfig, useFormData, useNamespace } from "@lc/useHooks";
-import { Configuration, CpnInfo, Form, OptionBodyQuery } from "../../types";
-const { getFormDetail, getCanSearchCpns, getTableListCpns } = useFormConfig();
-const { u } = useNamespace("lcDataList");
+import { Configuration, CpnInfo, Form, FormBaseInfo, OptionBodyQuery } from "../../types/index.d";
 
 const props = defineProps<{
   tableName: string;
@@ -52,28 +51,33 @@ const props = defineProps<{
 if (!props.tableName) {
   throw new Error("tableName属性不能为空");
 }
-// 表单信息
-const formInfo = ref<Form>();
-// 配置信息
-const configurationInfo = ref<Configuration>();
+
+const { u } = useNamespace("lcDataList");
+
+const { getFormDetail, getCanSearchCpns, getTableListCpns } = useFormConfig();
+
+const formInfo = ref<FormBaseInfo>(); // 表单信息
+const configurationInfo = ref<Configuration>(); // 配置信息
+const cpns = ref<CpnInfo[]>([]); // 条件控件
+getFormDetail(props.tableName).then((form: Form) => {
+  formInfo.value = form.form;
+  configurationInfo.value = form.configuration;
+  cpns.value = form.cpns;
+});
 // 条件控件
-const searchCpns = ref<CpnInfo[]>([]);
+const searchCpns = computed(() => {
+  return getCanSearchCpns(cpns.value);
+});
 // 表格控件
-const tableCpns = ref<CpnInfo[]>([]);
-const initData = async () => {
-  const formData = await getFormDetail(props.tableName);
-  const { form, cpns, configuration } = formData.data;
-  formInfo.value = form;
-  configurationInfo.value = configuration;
-  searchCpns.value = getCanSearchCpns(cpns);
-  tableCpns.value = getTableListCpns(cpns);
-};
-initData();
+const tableCpns = computed(() => {
+  return getTableListCpns(cpns.value);
+});
 
 // 查询数据
 const { listData, getFormListData } = useFormData(props.headers);
+// 搜索条件
+const searchConditions = ref<OptionBodyQuery[]>([]);
 const onSearch = (data: OptionBodyQuery[]) => {
-  console.log(configurationInfo.value);
   let orderByKey = "";
   let orderDirection = "ASC";
   if (configurationInfo.value) {
@@ -83,15 +87,9 @@ const onSearch = (data: OptionBodyQuery[]) => {
       orderDirection = orderBy[0].sort;
     }
   }
+  searchConditions.value = data;
   getFormListData(props.tableName, data, { orderBy: orderByKey, orderDirection: orderDirection });
 };
 </script>
 
-<style lang="less" scoped>
-.wk-lcDataList_operate {
-  &-left {
-  }
-  &-right {
-  }
-}
-</style>
+<style lang="less" scoped></style>

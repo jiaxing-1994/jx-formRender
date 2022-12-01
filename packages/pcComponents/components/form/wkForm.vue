@@ -11,19 +11,39 @@
 </template>
 
 <script lang="ts" setup>
-import { provide } from "vue";
+import { ref, provide } from "vue";
 import { useNamespace } from "@lc/useHooks";
+import Validator, { RuleType, ErrorType } from "@wk-libs/validator";
+
+export type { RuleType };
+
 const { ns, u } = useNamespace("form");
-const props = defineProps<{
-  layout?: string;
-  model?: object;
-}>();
+const props = withDefaults(
+  defineProps<{
+    layout?: string;
+    model?: Record<string, any>;
+    rules?: Record<string, RuleType[]>;
+  }>(),
+  {
+    layout: "horizontal",
+    rules: () => ({}),
+  }
+);
+
+const errObj = ref<Record<string, ErrorType[]>>({});
+provide("errObj", errObj);
 provide("layout", props.layout);
 
+const validator = new Validator();
 // 验证表单
 const validate = () => {
+  if (props.model && props.rules) {
+    const errRes = validator.validatorObj(props.model, props.rules);
+    errRes !== true ? (errObj.value = errRes) : (errObj.value = {});
+  }
   return props.model;
 };
+
 defineExpose<{
   validate: typeof validate;
 }>({

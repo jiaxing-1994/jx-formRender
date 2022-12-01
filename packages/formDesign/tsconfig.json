@@ -29,7 +29,8 @@
       "@controls/*": ["src/views/controls/*"],
       "@stores/*": ["src/stores/*"],
       "@myTypes/*": ["../types/*"],
-      "~style/*": ["src/assets/style/*"]
+      "~style/*": ["src/assets/style/*"],
+      "lc/*": ["../*"]
     }
   },
   "include": [

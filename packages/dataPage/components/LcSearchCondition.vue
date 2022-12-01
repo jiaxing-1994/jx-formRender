@@ -1,18 +1,8 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  h,
-  resolveComponent,
-  watch,
-  useSlots,
-  unref,
-  onMounted,
-  PropType,
-} from "vue";
-import type { WkForm } from "@lc/pcComponents";
-import { useCreateCpn, useFormTools } from "@lc/useHooks";
-import { CpnInfo } from "lc/types/index.d";
+import { defineComponent, ref, h, resolveComponent, watch, useSlots, unref, PropType } from "vue";
+import type { WkForm } from "lc/pcComponents";
+import { useCreateCpn, useFormTools } from "lc/useHooks";
+import { CpnInfo } from "lc/types";
 import LcSearchLabel from "./LcSearchLabel.vue";
 
 const SEARCH_TYPE_TO_CPN = {
@@ -25,6 +15,7 @@ const SEARCH_TYPE_TO_CPN = {
   CURRENCY: "wkInputNumber",
   MOBILE: "wkInputNumber",
 };
+
 export default defineComponent({
   name: "LcSearchCondition",
   props: {
@@ -35,8 +26,8 @@ export default defineComponent({
     search: (model: Record<string, any>) => model,
   },
   setup(props, { emit }) {
-    const model = ref<Record<string, any>>(props.value || {});
-    const searchTypes = ref<Record<string, string>>({});
+    const model = ref<Record<string, any>>(props.value || {}); // 搜索数据
+    const searchTypes = ref<Record<string, string>>({}); // 搜索类型
 
     // 初始化数据
     const initData = () => {
@@ -76,7 +67,7 @@ export default defineComponent({
       () => props.cpns,
       () => {
         initData();
-        onSearch();
+        onSearch(); // 自动搜索第一次
       },
       {
         immediate: true,
@@ -111,7 +102,7 @@ export default defineComponent({
         resolveComponent("wkFormItem"),
         {
           style: {
-            minWidth: "300px",
+            width: "350px",
           },
         },
         {
@@ -143,5 +134,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="less" scoped></style>

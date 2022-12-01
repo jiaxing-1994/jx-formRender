@@ -1,10 +1,8 @@
 <template>
-  <home></home>
+  <router-view></router-view>
 </template>
 
-<script lang="ts" setup>
-import Home from "./views/home.vue";
-</script>
+<script lang="ts" setup></script>
 
 <style lang="less">
 body {

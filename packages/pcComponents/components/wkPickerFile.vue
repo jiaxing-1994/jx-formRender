@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts" setup>
+// 邓雯完善
 import { ref, watch, onBeforeUnmount } from "vue";
 import { message } from "ant-design-vue";
 import * as wkUtils from "@wk-libs/utils";
@@ -100,16 +101,21 @@ interface FileType {
   size: number;
   file: string | File;
 }
-const props = defineProps<{
-  value: FileType[];
-  multiple: boolean;
-  regxType: RegExp;
-  ruleTip: string;
-  disabled: boolean;
-  maxSize: number | null;
-  isEdit: boolean;
-  isMobile: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    value: FileType[];
+    multiple: boolean;
+    regxType: RegExp;
+    ruleTip: string;
+    disabled: boolean;
+    maxSize: number | null;
+    isEdit: boolean;
+    isMobile: boolean;
+  }>(),
+  {
+    isEdit: true,
+  }
+);
 
 const emits = defineEmits<{
   (e: "onOk", fileOriginList: FileType[]): void;

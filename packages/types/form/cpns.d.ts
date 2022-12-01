@@ -26,7 +26,7 @@ export interface CpnInfo {
   dynamicOpts?: string | null;
   additionalInfo?: string;
   belongCpn?: string | null;
-  layout?: {
+  layout: {
     gridX: number;
     gridY: number;
   };

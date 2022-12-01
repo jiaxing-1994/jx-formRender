@@ -7,7 +7,7 @@
       <menus-panel></menus-panel>
     </template>
     <template #render>
-      <form-render-for-edit :list="formDesignerStore.cpnList"></form-render-for-edit>
+      <lc-form-render-for-edit :list="formDesignerStore.cpnList"></lc-form-render-for-edit>
     </template>
     <template #right>
       <props-panel></props-panel>

@@ -1,4 +1,4 @@
-import WkHttp, { AxiosResponse } from "@wk-libs/http";
+import WkHttp from "@wk-libs/http";
 
 export const ApiServeType: {
   formEngine: string;
@@ -10,16 +10,4 @@ const Http = new WkHttp({
   timeout: 40000,
 });
 
-// 响应拦截
-Http.setResponseInterceptors(
-  (config: AxiosResponse) => {
-    if (config.status === 200) {
-      return config.data;
-    }
-    return config;
-  },
-  (error: any) => {
-    console.log(error);
-  }
-);
 export default Http;

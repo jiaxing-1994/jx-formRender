@@ -2,22 +2,25 @@
   <wk-button
     class="mg-x_1"
     type="primary"
+    @click="onToAdd"
   >
     新增
   </wk-button>
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
 import { FormBaseInfo } from "lc/types";
 
 const props = defineProps<{
   form: FormBaseInfo | undefined;
 }>();
-const tableName = computed(() => {
-  return props.form?.formTableName;
-});
-console.log(tableName);
+const emit = defineEmits<{
+  (e: "onToAdd", tableName: string): void;
+}>();
+
+const onToAdd = () => {
+  emit("onToAdd", props.form?.formTableName || "");
+};
 </script>
 
 <style lang="less" scoped></style>

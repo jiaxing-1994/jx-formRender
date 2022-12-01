@@ -1,11 +1,17 @@
 <template>
   <a-button v-bind="parentAttrs">
+    {{ value }}
     <slot></slot>
   </a-button>
 </template>
 
 <script lang="ts" setup>
 import { useAttrs } from "vue";
+
+defineProps<{
+  value: string;
+}>();
+
 const parentAttrs = useAttrs();
 </script>
 

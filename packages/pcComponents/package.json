@@ -7,12 +7,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "files": ["components", "types"],
+  "files": [
+    "components",
+    "types"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "@lc/useHooks": "workspace:^1.0.0",
+    "@wk-libs/validator": "^1.0.11",
     "ant-design-vue": "^3.2.3",
     "vite": "^2.7.13"
   }

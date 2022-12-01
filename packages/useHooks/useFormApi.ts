@@ -1,8 +1,17 @@
 // 主要用于获取表单配置数据
 import { ref } from "vue";
 import { isUseful, isArray } from "@wk-libs/utils";
-import LcApiService from "@lc/apiService";
+import {
+  setGlobalHeaders,
+  getFormDetailByNameService,
+  postFormDataListService,
+  getFormDataByIdService,
+  postFormDataExportService,
+  postFormDataImportService,
+  getImportTemplateFileService,
+} from "@lc/apiService";
 import { canNotSearchCpns, canNotShowCpnsInList } from "@lc/constants";
+import { useDownload } from "./useFile";
 import {
   CpnInfo,
   Form,
@@ -11,23 +20,22 @@ import {
   OptionBodyQuery,
 } from "../types/index.d";
 
-let cacheHeaders: Record<string, string> = {};
+const cacheHeaders: Record<string, string> = {};
 // 表单配置信息相关
 export const useFormConfig = (headers: Record<string, string> = {}) => {
   if (Object.keys(headers).length > 0) {
-    cacheHeaders = headers;
+    setGlobalHeaders(headers);
   }
-  // @ts-ignore
-  const apiService = new LcApiService(cacheHeaders);
   const isMobile = window.location.pathname.indexOf("/mobile/") > -1;
+
   // 获取表单配置详情
-  const getFormDetail = async (tableName: string): Promise<ApiResult<Form>> => {
-    const form = await apiService.getFormDetailByNameService({ tableName });
+  const getFormDetail = async (tableName: string): Promise<Form> => {
+    const form = await getFormDetailByNameService({ tableName });
     return form;
   };
   // 过滤隐藏/禁用的控件
   const getUsefulCpns = (cpns: CpnInfo[]): CpnInfo[] => {
-    if (!cpns) {
+    if (!isArray(cpns)) {
       return [];
     }
     return cpns.filter((cpn) => {
@@ -96,54 +104,66 @@ export const useFormConfig = (headers: Record<string, string> = {}) => {
   };
 };
 
-// 表格相关
-export const useFormTable = () => {
-  // 获取columns
-  const getTabelColumns = (cpns: CpnInfo[]) => {
-    return cpns.map((cpn) => {
-      return {
-        title: cpn.lable,
-        dataIndex: cpn.cpnKey,
-      };
-    });
-  };
-
-  return {
-    getTabelColumns,
-  };
-};
-
-// 表单实际数据相关
-export const useFormData = (headers: Record<string, string>) => {
+// 表单数据相关
+export const useFormData = (headers: Record<string, string> = {}) => {
   if (Object.keys(headers).length > 0) {
-    cacheHeaders = headers;
+    setGlobalHeaders(headers);
   }
-  // @ts-ignore
-  const apiService = new LcApiService(cacheHeaders);
+  const { downloadFile } = useDownload(cacheHeaders);
   const listData = ref<Record<string, any>[]>([]);
+
   // 获取表单列表数据
   const getFormListData = async (
     tableName: string,
     query: OptionBodyQuery[],
     params: ListUrlQuery
   ) => {
-    const getListService = await apiService.postFormDataListService(tableName);
-    const res = await getListService(query, params);
-    return res;
+    const getListService = await postFormDataListService(tableName);
+    listData.value = await getListService(query, params);
   };
+
   // 获取表单详情数据
   const getFormDetailData = async (tableName: string, id: string) => {
-    const res = await apiService.getFormDataByIdService(tableName, { id });
+    const res = await getFormDataByIdService(tableName, { id });
     return res;
+  };
+
+  // 导出数据
+  const exportListData = async (tableName: string, query: OptionBodyQuery[] = []) => {
+    const res = await postFormDataExportService(tableName, query);
+    if (res.fileUrl) {
+      await downloadFile(res.fileUrl);
+    }
+  };
+
+  // 导入数据
+  const importListData = async (tableName: string, query: FormData) => {
+    const res = await postFormDataImportService(tableName, query);
+    let tipMsg = `导入完成, 总共数据${res.totalNum}条，成功导入${res.successNum}条`;
+    if (res.failNum > 0) {
+      // 导入失败
+      tipMsg += `，失败${res.failNum}条，失败原因请在下载的文件中查看！`;
+    } else {
+      // 导入成功
+    }
+    return tipMsg;
+  };
+
+  // 下载模板文件
+  const downloadTemplateFile = async (tableName: string) => {
+    await getImportTemplateFileService(tableName);
   };
   return {
     listData,
+    exportListData,
     getFormListData,
+    importListData,
     getFormDetailData,
+    downloadTemplateFile,
   };
 };
 
-// 表单工具相关
+// 表单工具相关, 数据转换，组合等
 export const useFormTools = () => {
   // 通过搜索值对象和搜索类型对象获取完整的搜索条件参数
   const getSearchConditionData = (
@@ -171,7 +191,17 @@ export const useFormTools = () => {
     }
     return result;
   };
+  // 获取columns
+  const getTabelColumns = (cpns: CpnInfo[]) => {
+    return cpns.map((cpn) => {
+      return {
+        title: cpn.lable,
+        dataIndex: cpn.cpnKey,
+      };
+    });
+  };
   return {
+    getTabelColumns,
     getSearchConditionData,
   };
 };

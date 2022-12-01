@@ -4,50 +4,47 @@ import { ExportResult, ListUrlQuery, OptionBodyQuery } from "../../types";
 export function postFormDataSingleService(
   tableName: string,
   query: Record<string, unknown>
-): Promise<ApiResult<string>> {
+): Promise<string> {
   return Http.post(`/data/${tableName}`, ApiServeType.formEngine, query);
 }
 
 export function getFormDataByIdService(
   tableName: string,
   query: IDQuery
-): Promise<ApiResult<Record<string, unknown>>> {
+): Promise<Record<string, unknown>> {
   return Http.get(`/data/${tableName}`, ApiServeType.formEngine, query);
 }
 
 export function putFormDataByIdService(
   tableName: string,
   query: Record<string, unknown>
-): Promise<ApiResult<string | null>> {
+): Promise<string | null> {
   return Http.put(`/data/${tableName}`, ApiServeType.formEngine, query);
 }
 
 export function delFormDataSoftByIdsService(
   tableName: string,
   query: IDsQuery
-): Promise<ApiResult<string | null>> {
+): Promise<string | null> {
   return Http.del(`/data/${tableName}/remove`, ApiServeType.formEngine, query);
 }
 
 export function delFormDataByIdsService(
   tableName: string,
   query: IDsQuery
-): Promise<ApiResult<string | null>> {
+): Promise<string | null> {
   return Http.del(`/data/${tableName}`, ApiServeType.formEngine, query);
 }
 
 export function postFormDataByIdsService(
   tableName: string,
   query: Record<string, unknown>[]
-): Promise<ApiResult<string | null>> {
+): Promise<string | null> {
   return Http.post(`/data/${tableName}/batch`, ApiServeType.formEngine, query);
 }
 
 export function postFormDataListService(tableName: string) {
-  return (
-    query: OptionBodyQuery[],
-    pages: ListUrlQuery
-  ): Promise<ApiResult<Record<string, unknown>[]>> =>
+  return (query: OptionBodyQuery[], pages: ListUrlQuery): Promise<Record<string, unknown>[]> =>
     // @ts-ignore
     Http.post(`/data/${tableName}/query`, ApiServeType.formEngine, query, pages);
 }
@@ -55,14 +52,14 @@ export function postFormDataListService(tableName: string) {
 export function postFormDataExportService(
   tableName: string,
   query: OptionBodyQuery[]
-): Promise<ApiResult<ExportResult>> {
+): Promise<ExportResult> {
   return Http.post(`/data/${tableName}/export`, ApiServeType.formEngine, query);
 }
 
 export function postFormDataImportService(
   tableName: string,
   file: FormData
-): Promise<ApiResult<ExportResult>> {
+): Promise<ExportResult> {
   return Http.post(
     `/data/${tableName}/import`,
     ApiServeType.formEngine,
@@ -74,7 +71,7 @@ export function postFormDataImportService(
   );
 }
 
-export function postUploadSingleFileService(file: FormData): Promise<ApiResult<string>> {
+export function postUploadSingleFileService(file: FormData): Promise<string> {
   return Http.post(
     "/file/single",
     ApiServeType.formEngine,

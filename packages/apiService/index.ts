@@ -1,20 +1,33 @@
+import { AxiosResponse } from "@wk-libs/http";
 export * from "./formEngineApi/formService";
 export * from "./formEngineApi/formDataService";
 import Http from "./http";
-import * as formService from "./formEngineApi/formService";
-import * as formDataService from "./formEngineApi/formDataService";
 
-function LcApiService(
-  headers: Record<string, string> = {}
-): typeof formDataService & typeof formService {
-  Http.setRequestInterceptors((config) => {
-    Object.assign(config.headers, headers);
-    return config;
-  });
-}
-LcApiService.prototype = {
-  ...formService,
-  ...formDataService,
+const globalHeaders: Record<string, string> = {};
+Http.setRequestInterceptors((config) => {
+  if (config.headers) {
+    Object.assign(config.headers, globalHeaders);
+  }
+  return config;
+});
+Http.setResponseInterceptors(
+  (response: AxiosResponse) => {
+    if (response.status === 200) {
+      if (response.data.success) {
+        return response.data.data;
+      } else if (response.data.success === false) {
+        return Promise.reject(response.data.message);
+      }
+      return response.data;
+    }
+    return false;
+  },
+  (error: any) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+export const setGlobalHeaders = (headers: Record<string, string>) => {
+  Object.assign(globalHeaders, headers);
 };
-
-export default LcApiService;
