@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { inject, PropType } from "vue";
 import { deepCopy, uuid } from "@wk-libs/utils";
-import { ControlFormType } from "@myTypes/index.d";
+import { CpnInfo } from "lc/packages/types";
 
 defineProps({
   dragList: {
@@ -44,8 +44,8 @@ const onClone = (element: any) => {
   };
 };
 
-const onAddControl = inject<(cpn: ControlFormType) => void>("onAddControl");
-const onClick = (cpn: ControlFormType) => {
+const onAddControl = inject<(cpn: CpnInfo) => void>("onAddControl");
+const onClick = (cpn: CpnInfo) => {
   if (cpn.label && cpn.label.indexOf("建设中") > -1) {
     return;
   }

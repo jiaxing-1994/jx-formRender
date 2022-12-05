@@ -22,7 +22,6 @@ export default class GDMap {
       expandZoomRange: true,
       zooms: [3, 20],
     };
-    console.log(AMap);
     this.map = new AMap.Map(id, {
       ...mapOptions,
       ...this.options,
@@ -101,7 +100,6 @@ export default class GDMap {
           position: "RB",
         });
         geolocation.getCurrentPosition((status: string, result: any) => {
-          console.log(result);
           if (status === "complete") {
             this.location = [result.position.lng, result.position.lat];
             resolve(this.location);

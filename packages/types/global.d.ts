@@ -10,7 +10,7 @@ declare type IDQuery = {
 };
 
 declare type IDsQuery = {
-  id: string;
+  ids: string;
 };
 
 declare interface ApiResult<D> {

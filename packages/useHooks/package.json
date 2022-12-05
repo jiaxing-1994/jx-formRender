@@ -12,6 +12,6 @@
   "dependencies": {
     "@lc/apiService": "workspace:^1.0.0",
     "@lc/constants": "workspace:^1.0.0",
-    "@wk-libs/utils": "1.0.4"
+    "@wk-libs/utils": "1.0.7"
   }
 }

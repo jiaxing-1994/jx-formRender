@@ -50,10 +50,13 @@ export default defineComponent({
     const { getSearchConditionData } = useFormTools();
     // 点击搜索
     const onSearch = () => {
+      let res = [];
       if (formRef.value) {
-        const res = getSearchConditionData(unref(formRef.value.validate()), searchTypes.value);
-        emit("search", res);
+        res = getSearchConditionData(unref(formRef.value.validate()), searchTypes.value);
+      } else {
+        res = getSearchConditionData(model.value, searchTypes.value);
       }
+      emit("search", res);
     };
     // 点击清除搜索
     const onClearSearch = () => {
@@ -94,7 +97,7 @@ export default defineComponent({
           layout: "horizontal",
           model: model,
         },
-        childrens
+        () => childrens
       );
     };
     const createFormItem = (cpn: CpnInfo) => {

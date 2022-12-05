@@ -1,10 +1,10 @@
 import { App } from "vue";
 import Render from "./render.vue";
-import RenderForEdit from "./renderForEdit.vue";
+import RenderForDesign from "./renderForDesign.vue";
 
 const installFormRender = (app: App) => {
   app.component("LcFormRender", Render);
-  app.component("LcFormRenderForEdit", RenderForEdit);
+  app.component("LcFormRenderForDesign", RenderForDesign);
 };
 
 export default installFormRender;

@@ -1,7 +1,7 @@
 import { defineConfig, mergeConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
-const config = require("./config/index");
+const config = require("./config");
 
 interface AliasesType {
   [key: string]: string | object;

@@ -71,10 +71,10 @@
       ref="tableBodyRef"
       class="table-body flex flex-between flex-top"
     >
-      <wk-empty
+      <a-empty
         v-if="data.length === 0 && !load"
         class="sticky-c"
-      ></wk-empty>
+      ></a-empty>
       <div class="sticky-c">
         <wk-loading v-if="load"></wk-loading>
       </div>

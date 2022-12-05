@@ -20,11 +20,11 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from "vue";
-import { cpns } from "@lc/constants";
+import { CPNS } from "@lc/constants";
 
 const isShow = ref(true);
 const containerShow = ref(true);
-const controlsList = ref(cpns);
+const controlsList = ref(CPNS);
 const baseControlList = computed(() => {
   return controlsList.value.filter((control) => !control.type || control.type === "base");
 });

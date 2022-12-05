@@ -3,7 +3,5 @@
 </template>
 
 <script lang="ts" setup>
-const tableName = "formTableName_d3cga7";
+const tableName = "formTableName_9r38n6";
 </script>
-
-<style lang="less" scoped></style>

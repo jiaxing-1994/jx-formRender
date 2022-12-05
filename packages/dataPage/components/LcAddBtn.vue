@@ -11,16 +11,14 @@
 <script lang="ts" setup>
 import { FormBaseInfo } from "lc/types";
 
-const props = defineProps<{
+defineProps<{
   form: FormBaseInfo | undefined;
 }>();
 const emit = defineEmits<{
-  (e: "onToAdd", tableName: string): void;
+  (e: "onToAdd"): void;
 }>();
 
 const onToAdd = () => {
-  emit("onToAdd", props.form?.formTableName || "");
+  emit("onToAdd");
 };
 </script>
-
-<style lang="less" scoped></style>

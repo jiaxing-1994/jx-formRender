@@ -1,4 +1,4 @@
-import Http, { ApiServeType } from "../http";
+import Http, { ApiServeType } from "../index";
 import {
   Form,
   FormBaseInfo,
@@ -60,7 +60,7 @@ export function postImportFormConfigService(query: FormData): Promise<string> {
   });
 }
 
-export function getAllRegionService(): Promise<ApiResult<RegionType[]>> {
+export function getAllRegionService(): Promise<RegionType[]> {
   return Http.get(Api.baseRegion, ApiServeType.formEngine);
 }
 

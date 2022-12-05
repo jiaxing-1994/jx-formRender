@@ -1,4 +1,4 @@
-import Http, { ApiServeType } from "../http";
+import Http, { ApiServeType } from "../index";
 import { ExportResult, ListUrlQuery, OptionBodyQuery } from "../../types";
 
 export function postFormDataSingleService(

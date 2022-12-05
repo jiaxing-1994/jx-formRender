@@ -103,17 +103,20 @@ interface FileType {
 }
 const props = withDefaults(
   defineProps<{
-    value: FileType[];
-    multiple: boolean;
-    regxType: RegExp;
-    ruleTip: string;
-    disabled: boolean;
-    maxSize: number | null;
-    isEdit: boolean;
-    isMobile: boolean;
+    value: FileType[] | null;
+    multiple?: boolean;
+    regxType?: RegExp;
+    ruleTip?: string;
+    disabled?: boolean;
+    maxSize?: number | null;
+    isEdit?: boolean;
+    isMobile?: boolean;
   }>(),
   {
     isEdit: true,
+    disabled: false,
+    maxSize: 50,
+    isMobile: false,
   }
 );
 
@@ -140,7 +143,7 @@ const isPicture = (file: FileType) => {
 
 const validator = (fileList: FileList): FileType[] => {
   const verifyFileType = (file: File) => {
-    if (props.regxType.test(file.name)) {
+    if (props.regxType?.test(file.name)) {
       return true;
     }
     message.warn(`${file.name}_格式不对`);

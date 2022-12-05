@@ -1,7 +1,7 @@
 export interface Configuration {
   indices: IndicesDetail[];
   defaultFieldDisplays: DefaultFieldDisplay[];
-  defaultButtonConfig: DefaultButton[] | null;
+  defaultButtonConfig?: DefaultButton[];
   defaultPageString: string;
   orderBy: OrderBy[];
 }

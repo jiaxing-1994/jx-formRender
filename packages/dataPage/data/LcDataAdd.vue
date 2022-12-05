@@ -1,41 +1,56 @@
 <template>
+  <slot
+    name="header"
+    :on-save-data="onSaveData"
+  ></slot>
   <lc-form-render
+    v-if="!isLoading"
     ref="formRenderRef"
     :cpns="cpns"
   ></lc-form-render>
+  <p v-else>加载中...</p>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useFormConfig } from "@lc/useHooks";
+import { useRouter } from "vue-router";
+import { useFormConfig, useFormData } from "@lc/useHooks";
 import { FormRender } from "@lc/formRender";
 import { CpnInfo, Form } from "lc/types";
 
 const props = defineProps<{
   tableName: string;
-  headers: Record<string, string>;
-  searchConditions: Record<string, any>;
+  headers?: Record<string, string>;
 }>();
 
 const { getFormDetail, getDetailPageCpns } = useFormConfig(props.headers);
 const cpns = ref<CpnInfo[]>([]);
+const isLoading = ref(true);
 getFormDetail(props.tableName).then((form: Form) => {
   cpns.value = getDetailPageCpns(form.cpns);
+  isLoading.value = false;
 });
 
 const formRenderRef = ref<InstanceType<FormRender>>();
 
-const getData = () => {
+const { go } = useRouter();
+
+const { addData } = useFormData(props.tableName);
+const onSaveData = async () => {
   if (formRenderRef.value) {
-    console.log(formRenderRef.value);
     const data = formRenderRef.value.getData();
-    console.log(data);
+    if (data) {
+      await addData(data);
+      alert("新增成功");
+      go(-1);
+    }
   }
 };
-
-defineExpose({
-  getData,
-});
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.form-render {
+  width: 100%;
+  max-width: 1000px;
+}
+</style>

@@ -1,21 +1,26 @@
 <template>
-  <div :class="[ns]">
-    <div
-      :class="[
-        u('wrap'),
-        layout === 'vertical' && u('vertical'),
-        layout === 'horizontal' && u('horizontal'),
-      ]"
-    >
-      <div :class="[u('label')]">
-        <label v-if="label">{{ label }}</label>
+  <div
+    :class="[
+      ns,
+      layout === 'vertical' && u('vertical'),
+      layout === 'horizontal' && u('horizontal'),
+    ]"
+  >
+    <div :class="[u('wrap')]">
+      <div
+        v-if="!isNoLabel"
+        :class="[u('label')]"
+      >
+        <label :class="[isRequired && u('label', 'required')]">
+          {{ label }}
+        </label>
         <slot name="label"></slot>
       </div>
       <div
         :class="[
           u('content'),
-          hasLabel && u('content', 'label'),
           errMsg && 'ant-form-item-has-error',
+          !isNoLabel && u('content', 'label'),
         ]"
       >
         <div :class="[u('content', 'wrap')]">
@@ -32,26 +37,49 @@
 <script lang="ts" setup>
 import { inject, computed, useSlots, Ref } from "vue";
 import { useNamespace } from "@lc/useHooks";
-import { ErrorType } from "@wk-libs/validator";
+import Validator, { RuleType } from "@wk-libs/validator";
+
 const props = defineProps<{
-  label: string;
-  name: string; // 字段标识，用来判断校验错误字段
+  label?: string;
+  name?: string; // 字段标识，用来判断校验错误字段
 }>();
 const { ns, u } = useNamespace("form-item");
 
 const layout = inject<Ref<string>>("layout");
 
-const slots = useSlots();
-const hasLabel = computed(() => {
-  return props.label || slots.label;
+const model = inject<Record<string, any>>("model");
+const rules = inject<Ref<Record<string, RuleType[]>>>("rules");
+
+// 当前控件的值
+const value = computed(() => {
+  if (model && props.name && model[props.name] !== undefined) {
+    return model[props.name];
+  }
+  return null;
+});
+// 当前控件的规则
+const rule = computed(() => {
+  if (rules && props.name && rules.value[props.name] !== undefined) {
+    return rules.value[props.name];
+  }
+  return [];
 });
 
-const errObj = inject<Ref<Record<string, ErrorType[]>>>("errObj");
+// 动态校验
+const validator = new Validator();
 const errMsg = computed(() => {
-  if (errObj && errObj.value[props.name] && errObj.value[props.name].length > 0) {
-    return errObj.value[props.name][0].errMsg;
+  const res = validator.validator(value.value, rule.value);
+  if (res !== true) {
+    return res[0].errMsg;
   }
   return "";
+});
+
+const isRequired = computed(() => rule.value.find((item) => item.validatorType === "REQUIRED"));
+
+const slots = useSlots();
+const isNoLabel = computed(() => {
+  return slots.label || !props.label;
 });
 </script>
 
@@ -68,6 +96,10 @@ const errMsg = computed(() => {
   &_horizontal {
     display: inline-block;
     white-space: nowrap;
+    vertical-align: top;
+    .wk-form-item_wrap {
+      display: inline-block;
+    }
   }
   &_label {
     width: 100px;
@@ -79,6 +111,11 @@ const errMsg = computed(() => {
       text-align: right;
       display: inline-block;
     }
+    &-required::before {
+      content: "*";
+      color: #ff4d4f;
+      margin-right: 5px;
+    }
     label::after {
       content: ":";
     }
@@ -87,12 +124,12 @@ const errMsg = computed(() => {
     display: inline-block;
     padding: 3px;
     vertical-align: middle;
-    width: calc(100% - 110px);
+    width: 100%;
     &-label {
       width: calc(100% - 110px);
     }
     &-wrap {
-      max-width: 300px;
+      //max-width: 300px;
     }
   }
   &_err {

@@ -9,7 +9,7 @@
 import { useAttrs } from "vue";
 
 defineProps<{
-  value: string;
+  value?: string;
 }>();
 
 const parentAttrs = useAttrs();

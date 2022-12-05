@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, inject, computed, Ref, PropType } from "vue";
 import * as wkUtils from "@wk-libs/utils";
-import { ColumnType } from "./wktTable.vue";
+import { ColumnType } from "./wkTable.vue";
 import { useMouseMove } from "@lc/useHooks";
 
 export default defineComponent({

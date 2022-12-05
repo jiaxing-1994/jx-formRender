@@ -10,5 +10,3 @@ import { useAttrs } from "vue";
 
 const parentAttrs = useAttrs();
 </script>
-
-<style lang="less" scoped></style>

@@ -1,31 +1,35 @@
 <template>
-  <wk-button
-    class="mg-x_1"
-    type="primary"
-    :loading="loading"
-    @click="onImport"
+  <div
+    v-if="isShowImport"
+    class="inline-block mg-x_1"
   >
-    导入
-  </wk-button>
-  <wk-modal
-    v-model:visible="visible"
-    title="选择文件"
-    destroy-on-close
-    :confirm-loading="loading"
-    @ok="onOk"
-  >
-    <wk-picker-file
-      :regx-type="/(xls|xlsx)$/"
-      rule-tip="仅支持xlx和xlsx格式"
-      @fileChange="onFileChange"
-    ></wk-picker-file>
-    <div
-      class="fs_sm blue ta_r mg-t_1 cs-p"
-      @click="onDownloadTemplate"
+    <wk-button
+      type="primary"
+      :loading="loading"
+      @click="onImport"
     >
-      点击下载模板示例文件
-    </div>
-  </wk-modal>
+      导入
+    </wk-button>
+    <wk-modal
+      v-model:visible="visible"
+      title="选择文件"
+      destroy-on-close
+      :confirm-loading="loading"
+      @ok="onOk"
+    >
+      <wk-picker-file
+        :regx-type="/(xls|xlsx)$/"
+        rule-tip="仅支持xlx和xlsx格式"
+        @fileChange="onFileChange"
+      ></wk-picker-file>
+      <div
+        class="fs_sm blue ta_r mg-t_1 cs-p"
+        @click="onDownloadTemplate"
+      >
+        点击下载模板示例文件
+      </div>
+    </wk-modal>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -44,10 +48,13 @@ const loading = ref(false);
 const importConfig = computed(() => {
   return props.configuration?.defaultButtonConfig?.find((item) => item.type === "IMPORT");
 });
+const isShowImport = computed(() => {
+  return !importConfig.value || importConfig.value.isShow;
+});
 const onImport = () => {
   visible.value = true;
 };
-const { importListData, downloadTemplateFile } = useFormData();
+const { importListData, downloadTemplateFile } = useFormData(props.form.formTableName);
 const currFile = ref<File>();
 const onOk = async () => {
   loading.value = true;
@@ -56,7 +63,7 @@ const onOk = async () => {
     formData.append("file", currFile.value);
     if (!importConfig.value || importConfig.value.isShow) {
       // 走默认逻辑
-      const tipMsg = await importListData(props.form.formTableName, formData);
+      const tipMsg = await importListData(formData);
       console.log(tipMsg);
       // 邓雯
     } else {
@@ -75,7 +82,7 @@ const onFileChange = (file: FileType[]) => {
 const onDownloadTemplate = () => {
   if (!importConfig.value || importConfig.value.isShow) {
     // 走默认
-    downloadTemplateFile(props.form.formTableName);
+    downloadTemplateFile();
   } else {
     // 走自定义
     const { isCustomTemplate, templateUrl } = importConfig.value;
@@ -91,5 +98,3 @@ const onDownloadTemplate = () => {
   }
 };
 </script>
-
-<style lang="less" scoped></style>

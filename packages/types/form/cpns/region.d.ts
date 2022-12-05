@@ -1,6 +1,6 @@
 export interface RegionType {
-  childNodes: RegionType[];
+  childNodes?: RegionType[];
   code: string;
   fullName: string;
-  name: string;
+  name?: string;
 }

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve:eg": "pnpm -C example serve",
-    "serve:formDesign": "pnpm -C packages/formDesign serve",
+    "serve:formDesign": "pnpm -C formDesign serve",
     "build:style": "pnpm -C packages/style build"
   },
   "keywords": [],
@@ -16,7 +16,6 @@
     "@lc/formRender": "workspace:^1.0.0",
     "@lc/useHooks": "workspace:^1.0.0",
     "@vue/runtime-core": "^3.2.39",
-    "@wk-libs/utils": "1.0.4",
     "typescript": "^4.7.4",
     "vue": "^3.2.32",
     "vue-router": "4.1.6"

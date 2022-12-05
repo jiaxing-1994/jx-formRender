@@ -1,9 +1,21 @@
 import { AxiosResponse } from "@wk-libs/http";
 export * from "./formEngineApi/formService";
 export * from "./formEngineApi/formDataService";
-import Http from "./http";
+import WkHttp from "@wk-libs/http";
 
 const globalHeaders: Record<string, string> = {};
+
+const ApiServeType: {
+  formEngine: string;
+} = {
+  formEngine: `${"http://182.148.114.194:30080" || window.location.origin}/form-engine`,
+};
+
+const Http = new WkHttp({
+  baseUrl: ApiServeType.formEngine,
+  timeout: 40000,
+});
+
 Http.setRequestInterceptors((config) => {
   if (config.headers) {
     Object.assign(config.headers, globalHeaders);
@@ -28,6 +40,9 @@ Http.setResponseInterceptors(
   }
 );
 
-export const setGlobalHeaders = (headers: Record<string, string>) => {
+const setGlobalHeaders = (headers: Record<string, string>) => {
   Object.assign(globalHeaders, headers);
 };
+
+export { ApiServeType, setGlobalHeaders };
+export default Http;

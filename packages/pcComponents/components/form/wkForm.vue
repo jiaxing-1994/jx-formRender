@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide } from "vue";
+import { ref, provide, watch } from "vue";
 import { useNamespace } from "@lc/useHooks";
 import Validator, { RuleType, ErrorType } from "@wk-libs/validator";
 
@@ -30,18 +30,29 @@ const props = withDefaults(
   }
 );
 
-const errObj = ref<Record<string, ErrorType[]>>({});
+const rules = ref(props.rules || []);
+watch(
+  () => props.rules,
+  () => {
+    rules.value = props.rules || [];
+  }
+);
+provide("model", props.model);
+provide("rules", rules);
+
+const errObj = ref<Record<string, ErrorType[]>>({}); // 整体校验
 provide("errObj", errObj);
 provide("layout", props.layout);
 
 const validator = new Validator();
 // 验证表单
-const validate = () => {
+const validate = (): Record<string, any> | null => {
+  let errRes: boolean | Record<string, ErrorType[]> = true;
   if (props.model && props.rules) {
-    const errRes = validator.validatorObj(props.model, props.rules);
+    errRes = validator.validatorObj(props.model, props.rules);
     errRes !== true ? (errObj.value = errRes) : (errObj.value = {});
   }
-  return props.model;
+  return errRes === true ? props.model || {} : null;
 };
 
 defineExpose<{

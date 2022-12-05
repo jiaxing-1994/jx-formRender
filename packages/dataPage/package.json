@@ -13,6 +13,7 @@
     "@lc/formRender": "workspace:^1.0.0",
     "@lc/pcComponents": "workspace:^1.0.0",
     "@lc/style": "workspace:^1.0.0",
-    "@lc/useHooks": "workspace:^1.0.0"
+    "@lc/useHooks": "workspace:^1.0.0",
+    "@wk-libs/utils": "1.0.6"
   }
 }

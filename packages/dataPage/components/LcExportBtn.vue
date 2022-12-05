@@ -1,5 +1,6 @@
 <template>
   <wk-button
+    v-if="isShowExport"
     class="mg-x_1"
     type="primary"
     :loading="exportLoading"
@@ -10,21 +11,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useFormData } from "lc/useHooks";
-import { FormBaseInfo, OptionBodyQuery } from "lc/types";
+import { Configuration, FormBaseInfo, OptionBodyQuery } from "lc/types";
 
 const props = defineProps<{
   form: FormBaseInfo;
+  configuration: Configuration;
   searchConditions: OptionBodyQuery[];
 }>();
-const { exportListData } = useFormData();
+
+const exportConfig = computed(() => {
+  return props.configuration?.defaultButtonConfig?.find((item) => item.type === "EXPORT");
+});
+const isShowExport = computed(() => {
+  return !exportConfig.value || exportConfig.value.isShow;
+});
+
+const { exportListData } = useFormData(props.form.formTableName);
 const exportLoading = ref(false);
 const onExport = async () => {
   exportLoading.value = true;
-  await exportListData(props.form.formTableName, props.searchConditions);
+  await exportListData(props.searchConditions);
   exportLoading.value = false;
 };
 </script>
-
-<style lang="less" scoped></style>

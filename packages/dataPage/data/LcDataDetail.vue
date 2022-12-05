@@ -1,11 +1,86 @@
-<template>detail</template>
+<template>
+  <slot
+    name="header"
+    :is-edit="isEdit"
+    :is-show-edit="!isShowEdit"
+    :on-save-data="onSaveData"
+    :on-edit-data="onEditData"
+    :on-cancel-edit="onCancelEdit"
+  ></slot>
+  <lc-form-render
+    v-if="!isLoading && !isLoadingData"
+    ref="formRenderRef"
+    :cpns="cpns"
+    :model="formDataInfo"
+    :is-edit="isEdit"
+  ></lc-form-render>
+  <p v-else>加载中...</p>
+</template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed, ref } from "vue";
+import { useFormConfig, useFormData } from "@lc/useHooks";
+import { FormRender } from "@lc/formRender";
+import { Configuration, CpnInfo, Form } from "lc/types";
 
-export default defineComponent({
-  name: "LcDataDetail",
+const props = defineProps<{
+  tableName: string;
+  headers?: Record<string, string>;
+  id: string;
+}>();
+
+const { getFormDetail, getDetailPageCpns } = useFormConfig(props.headers);
+const cpns = ref<CpnInfo[]>([]);
+const configuration = ref<Configuration>();
+const isLoading = ref(true);
+getFormDetail(props.tableName).then((form: Form) => {
+  cpns.value = getDetailPageCpns(form.cpns);
+  console.log(cpns.value);
+  configuration.value = form.configuration;
+  isLoading.value = false;
 });
+
+const editConfig = computed(() => {
+  return configuration.value?.defaultButtonConfig?.find((item) => item.type === "EDIT");
+});
+const isShowEdit = computed(() => {
+  return !editConfig.value || editConfig.value.isShow;
+});
+
+const formRenderRef = ref<InstanceType<FormRender>>();
+
+const { getFormDetailData, editData } = useFormData(props.tableName);
+const formDataInfo = ref<Record<string, any>>({});
+const isLoadingData = ref(true);
+getFormDetailData(props.id).then((res) => {
+  formDataInfo.value = res;
+  isLoadingData.value = false;
+});
+const onSaveData = async () => {
+  if (formRenderRef.value) {
+    const data = formRenderRef.value.getData();
+    if (data) {
+      await editData({
+        ...formDataInfo.value,
+        ...data,
+      });
+      alert("编辑成功");
+      isEdit.value = false;
+    }
+  }
+};
+const isEdit = ref(false);
+const onEditData = (edit: boolean) => {
+  isEdit.value = edit;
+};
+const onCancelEdit = (edit: boolean) => {
+  isEdit.value = edit;
+};
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.form-render {
+  width: 100%;
+  max-width: 1000px;
+}
+</style>

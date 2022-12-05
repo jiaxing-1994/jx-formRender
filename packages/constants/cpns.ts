@@ -1,7 +1,7 @@
 import { CpnInfo } from "../types/index.d";
 
 // 不能做搜索的控件
-export const canNotSearchCpns = [
+export const CAN_NOT_SEARCH_CPNS = [
   "FILE",
   "WORD",
   "TABLE",
@@ -17,7 +17,7 @@ export const canNotSearchCpns = [
 ];
 
 // 列表中不显示
-export const canNotShowCpnsInList = [
+export const CAN_NOT_SHOW_CPNS_IN_LIST = [
   "FILE",
   "WORD",
   "TABLE",
@@ -29,13 +29,13 @@ export const canNotShowCpnsInList = [
 ];
 
 // 不能在子表格中应用的控件
-export const canNotUseInSubTable = ["TEXTAREA", "RICHTEXT", "LOCATION"];
+export const CAN_NOT_USE_IN_SUB_TABLE = ["TEXTAREA", "RICHTEXT", "LOCATION"];
 
 // 不能在弹窗中应用的控件
-export const canNotUseInModal = ["TABLE", "TEXTAREA", "RICHTEXT", "LOCATION"];
+export const CAN_NOT_USE_IN_MODAL = ["TABLE", "TEXTAREA", "RICHTEXT", "LOCATION"];
 
 // 能建索引的控件
-export const canIndices = [
+export const CAN_INDICES = [
   "TEXT",
   "TEXTAREA",
   "RADIO",
@@ -51,34 +51,7 @@ export const canIndices = [
 ];
 
 // 能鉴权的控件
-export const canAuthority = ["SELECT", "ADMINISTRATION_REGION"];
-
-// 类型与中文关系
-export const cpnsName: Record<string, string> = {
-  TEXT: "短文本",
-  TEXTAREA: "长文本",
-  SELECT: "选项",
-  CHECKBOX: "复选框",
-  RADIO: "单选",
-  NUMBER_TEXT: "数字",
-  CURRENCY: "金额",
-  MOBILE: "手机号码",
-  FILE: "文件",
-  EMAIL: "邮箱",
-  DATE: "日期",
-  TIME: "时间",
-  DATETIME: "日期时间",
-  WORD: "静态文字",
-  ADMINISTRATION_REGION: "地区",
-  TABLE: "子表单",
-  CONTAINER: "容器组件",
-  TAB: "tab组件",
-  SEPARATOR: "分割符",
-  LOCATION: "定位",
-  RICHTEXT: "富文本",
-  BUTTON: "按钮",
-  SWITCH: "开关",
-};
+export const CAN_AUTHORITY = ["SELECT", "ADMINISTRATION_REGION"];
 
 export const SEARCH_MARK_INFO: Record<string, { name: string; symbol: string; value: string }> = {
   regex: {
@@ -151,32 +124,7 @@ export const CPN_TYPE_TO_SEARCH_MARKS: Record<string, string[]> = {
   SWITCH: ["is"],
 };
 
-export const cpnIcon: Record<string, string> = {
-  TEXT: "f-duanwenben",
-  TEXTAREA: "f-changwenben1",
-  SELECT: "f-xuanxiang1",
-  RADIO: "f-danxuan1",
-  NUMBER_TEXT: "f-shuzi1",
-  CURRENCY: "f-jine1",
-  CHECKBOX: "f-fuxuan",
-  MOBILE: "f-shoujihaoma1",
-  FILE: "f-wenjianshangchuan",
-  EMAIL: "f-youxiang",
-  DATE: "f-riqi1",
-  TIME: "f-shijian1",
-  DATETIME: "f-riqishijian1",
-  WORD: "f-jingtaiwenzi1",
-  ADMINISTRATION_REGION: "f-diqu1",
-  TABLE: "f-zibiaoge",
-  RICHTEXT: "f-fuwenben",
-  LOCATION: "f-dingwei",
-  CONTAINER: "f-rongqizujian",
-  TAB: "f-tabzujian",
-  SEPARATOR: "f-fengefu",
-  DEFAULT: "f-kaifazhong",
-};
-
-const baseCpns: Partial<CpnInfo>[] = [
+const BASE_CPNS: Partial<CpnInfo>[] = [
   {
     label: "短文本",
     cpnType: "TEXT",
@@ -311,7 +259,7 @@ const baseCpns: Partial<CpnInfo>[] = [
   },
 ];
 
-const advanceCpns: Partial<CpnInfo>[] = [
+const ADVANCE_CPNS: Partial<CpnInfo>[] = [
   {
     label: "地区",
     cpnType: "ADMINISTRATION_REGION",
@@ -348,7 +296,7 @@ const advanceCpns: Partial<CpnInfo>[] = [
   { label: "子页面", cpnType: "SUBPAGE", cpnKey: "SUBPAGE", operationalTypes: [], type: "advance" },
 ];
 
-export const layoutCpns: Partial<CpnInfo>[] = [
+export const LAYOUT_CPNS: Partial<CpnInfo>[] = [
   {
     label: "容器组件",
     cpnType: "CONTAINER",
@@ -378,4 +326,4 @@ export const layoutCpns: Partial<CpnInfo>[] = [
   { label: "分割符", cpnType: "SEPARATOR", cpnKey: "SEPARATOR", type: "layout" },
 ];
 
-export const cpns = [...baseCpns, ...advanceCpns, ...layoutCpns];
+export const CPNS = [...BASE_CPNS, ...ADVANCE_CPNS, ...LAYOUT_CPNS];

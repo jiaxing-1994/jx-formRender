@@ -5,7 +5,7 @@
     :search-conditions="searchConditions"
   >
     <template #search="props">
-      <div class="search-wrap pd-x_1 pd-y_2">
+      <div :class="[u('search-wrap'), 'pd-x_1', 'pd-y_2']">
         <lc-search-condition
           :value="searchConditions"
           v-bind="props"
@@ -48,13 +48,28 @@
       ></slot>
     </template>
     <template #table="props">
-      <lc-table-list v-bind="props"></lc-table-list>
+      <lc-table-list
+        v-bind="props"
+        @check="onToDetail"
+      >
+        <template #bodyCell="bodyCellProps">
+          <slot
+            name="bodyCell"
+            v-bind="bodyCellProps"
+          ></slot>
+        </template>
+        <template #bodyCellActions="bodyCellActionsProps">
+          <slot
+            name="bodyCellActions"
+            v-bind="bodyCellActionsProps"
+          ></slot>
+        </template>
+      </lc-table-list>
     </template>
   </lc-data-list>
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
 import {
   LcImportBtn,
   LcAddBtn,
@@ -62,6 +77,7 @@ import {
   LcSearchCondition,
   LcTableList,
 } from "../../components";
+import { useNamespace } from "lc/useHooks";
 
 defineProps<{
   tableName: string; // 表单数据库表名
@@ -69,18 +85,22 @@ defineProps<{
   searchConditions: Record<string, any>; // 默认查询条件
 }>();
 const emit = defineEmits<{
-  (e: "onToAdd", tableName: string): void;
+  (e: "onToAdd"): void;
+  (e: "onToDetail", id: string): void;
 }>();
 
-const { push } = useRouter();
-const onToAdd = (tableName: string) => {
-  push("/LcAdd");
-  emit("onToAdd", tableName);
+const { u } = useNamespace("lc-data-list");
+
+const onToAdd = () => {
+  emit("onToAdd");
+};
+const onToDetail = (id: string) => {
+  emit("onToDetail", id);
 };
 </script>
 
 <style lang="less" scoped>
-.search-wrap {
+.wk-lc-data-list_search-wrap {
   background: #f1f2f3;
 }
 </style>

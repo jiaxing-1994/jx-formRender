@@ -1,6 +1,6 @@
 // 主要用于获取表单配置数据
 import { ref } from "vue";
-import { isUseful, isArray } from "@wk-libs/utils";
+import { isUseful, isArray, isObject } from "@wk-libs/utils";
 import {
   setGlobalHeaders,
   getFormDetailByNameService,
@@ -9,8 +9,12 @@ import {
   postFormDataExportService,
   postFormDataImportService,
   getImportTemplateFileService,
+  postFormDataSingleService,
+  delFormDataByIdsService,
+  putFormDataByIdService,
+  getAllRegionService,
 } from "@lc/apiService";
-import { canNotSearchCpns, canNotShowCpnsInList } from "@lc/constants";
+import { CAN_NOT_SEARCH_CPNS, CAN_NOT_SHOW_CPNS_IN_LIST } from "@lc/constants";
 import { useDownload } from "./useFile";
 import {
   CpnInfo,
@@ -18,6 +22,7 @@ import {
   ListUrlQuery,
   OperationalTypeEnum,
   OptionBodyQuery,
+  RuleType,
 } from "../types/index.d";
 
 const cacheHeaders: Record<string, string> = {};
@@ -51,12 +56,12 @@ export const useFormConfig = (headers: Record<string, string> = {}) => {
   };
 
   // 获取可搜索的控件
-  const getCanSearchCpns = (cpns: CpnInfo[]) => {
+  const getCanSearchCpns = (cpns: CpnInfo[]): CpnInfo[] => {
     // 1.先排除绝对不显示的 即隐藏/禁用了的
     return getUsefulCpns(cpns).filter((cpn) => {
       let isCanSearch = true;
       // 2.去掉约定的不能搜索的控件
-      if (canNotSearchCpns.includes(cpn.cpnType)) {
+      if (CAN_NOT_SEARCH_CPNS.includes(cpn.cpnType)) {
         isCanSearch = false;
       }
       // 3.去掉没有配置搜索类型的
@@ -76,7 +81,7 @@ export const useFormConfig = (headers: Record<string, string> = {}) => {
         isMobile ? OperationalTypeEnum.app_list_hide : OperationalTypeEnum.list_hide
       );
       // 2.去掉约定的无法在列表页中展示的控件
-      isShow = !canNotShowCpnsInList.includes(cpn.cpnType);
+      isShow = !CAN_NOT_SHOW_CPNS_IN_LIST.includes(cpn.cpnType);
       return isShow;
     });
   };
@@ -105,7 +110,11 @@ export const useFormConfig = (headers: Record<string, string> = {}) => {
 };
 
 // 表单数据相关
-export const useFormData = (headers: Record<string, string> = {}) => {
+export const useFormData = (tableName: string, headers: Record<string, string> = {}) => {
+  if (!tableName) {
+    alert("数据库表名不能为空");
+    throw new Error("数据库表名不能为空");
+  }
   if (Object.keys(headers).length > 0) {
     setGlobalHeaders(headers);
   }
@@ -113,23 +122,19 @@ export const useFormData = (headers: Record<string, string> = {}) => {
   const listData = ref<Record<string, any>[]>([]);
 
   // 获取表单列表数据
-  const getFormListData = async (
-    tableName: string,
-    query: OptionBodyQuery[],
-    params: ListUrlQuery
-  ) => {
+  const getFormListData = async (query: OptionBodyQuery[], params: ListUrlQuery) => {
     const getListService = await postFormDataListService(tableName);
     listData.value = await getListService(query, params);
   };
 
   // 获取表单详情数据
-  const getFormDetailData = async (tableName: string, id: string) => {
+  const getFormDetailData = async (id: string) => {
     const res = await getFormDataByIdService(tableName, { id });
     return res;
   };
 
   // 导出数据
-  const exportListData = async (tableName: string, query: OptionBodyQuery[] = []) => {
+  const exportListData = async (query: OptionBodyQuery[] = []) => {
     const res = await postFormDataExportService(tableName, query);
     if (res.fileUrl) {
       await downloadFile(res.fileUrl);
@@ -137,7 +142,7 @@ export const useFormData = (headers: Record<string, string> = {}) => {
   };
 
   // 导入数据
-  const importListData = async (tableName: string, query: FormData) => {
+  const importListData = async (query: FormData) => {
     const res = await postFormDataImportService(tableName, query);
     let tipMsg = `导入完成, 总共数据${res.totalNum}条，成功导入${res.successNum}条`;
     if (res.failNum > 0) {
@@ -150,14 +155,40 @@ export const useFormData = (headers: Record<string, string> = {}) => {
   };
 
   // 下载模板文件
-  const downloadTemplateFile = async (tableName: string) => {
+  const downloadTemplateFile = async () => {
     await getImportTemplateFileService(tableName);
+  };
+
+  // 新增数据
+  const addData = async (query: Record<string, any>) => {
+    return await postFormDataSingleService(tableName, query);
+  };
+
+  // 删除数据
+  const delData = async (ids: string) => {
+    return await delFormDataByIdsService(tableName, {
+      ids,
+    });
+  };
+
+  // 编辑数据
+  const editData = async (query: Record<string, any>) => {
+    return await putFormDataByIdService(tableName, query);
+  };
+
+  // 获取行政码数据
+  const getRegionCode = async () => {
+    return await getAllRegionService();
   };
   return {
     listData,
+    addData,
+    delData,
+    editData,
+    getRegionCode,
     exportListData,
-    getFormListData,
     importListData,
+    getFormListData,
     getFormDetailData,
     downloadTemplateFile,
   };
@@ -192,15 +223,93 @@ export const useFormTools = () => {
     return result;
   };
   // 获取columns
-  const getTabelColumns = (cpns: CpnInfo[]) => {
-    return cpns.map((cpn) => {
-      return {
-        title: cpn.lable,
-        dataIndex: cpn.cpnKey,
-      };
-    });
+  const getTabelColumns = (cpns: CpnInfo[], isHasAction = false) => {
+    const defaultColumns = [];
+    if (isHasAction) {
+      defaultColumns.push({
+        fixed: "right",
+        title: "操作",
+        dataIndex: "actions",
+        width: 120,
+      });
+    }
+    return [
+      ...cpns.map((cpn) => {
+        return {
+          title: cpn.lable,
+          dataIndex: cpn.cpnKey,
+        };
+      }),
+      ...defaultColumns,
+    ];
+  };
+  // 添加校验器
+  const getValidator = (cpn: CpnInfo, validators: RuleType[] = []) => {
+    const { cpnType } = cpn;
+    !validators && (validators = []);
+    if (cpnType === "MOBILE") {
+      if (!validators.find((item) => item.validatorType === "REGEXP")) {
+        validators.push({
+          validatorType: "REGEXP",
+          regexp: /^1\d{10}$/,
+          message: "无效的手机号码格式",
+        });
+      }
+    }
+    if (cpnType === "EMAIL") {
+      if (!validators.find((item) => item.validatorType === "REGEXP")) {
+        validators.push({
+          validatorType: "REGEXP",
+          regexp: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+          message: "无效的邮箱地址格式",
+        });
+      }
+    }
+    return validators;
+  };
+
+  // 通过单个节点，向上查找其所有的父节点
+  const getParentTrees = (
+    treeNodes: any[] | object,
+    tree: string | number,
+    result: any[],
+    fieldName = { children: "childNodes", value: "code" },
+    level = 0
+  ): boolean => {
+    let isFind = false;
+    if (isArray(treeNodes)) {
+      for (let i = 0; i < treeNodes.length; i += 1) {
+        if (isObject(treeNodes[i])) {
+          result[level] = treeNodes[i];
+          if (treeNodes[i][fieldName.value] === tree) {
+            isFind = true;
+          }
+          if (!isFind) {
+            isFind = getParentTrees(treeNodes[i], tree, result, fieldName, level);
+          }
+          if (isFind) {
+            break;
+          } else {
+            result.pop();
+          }
+        }
+      }
+    } else if (isObject(treeNodes)) {
+      if (treeNodes[fieldName.value] === tree) {
+        result[level] = treeNodes;
+        isFind = true;
+      } else if (
+        isArray(treeNodes[fieldName.children]) &&
+        treeNodes[fieldName.children].length > 0
+      ) {
+        isFind = getParentTrees(treeNodes[fieldName.children], tree, result, fieldName, level + 1);
+      }
+    }
+    return isFind;
   };
   return {
+    getParentTrees,
+    getValidator,
     getTabelColumns,
     getSearchConditionData,
   };

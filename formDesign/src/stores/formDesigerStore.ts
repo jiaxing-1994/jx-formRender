@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { CpnInfo, FormBaseInfo } from "lc/types";
+import { CpnInfo, FormBaseInfo } from "lc/packages/types";
 
 interface State {
   formInfo: Partial<FormBaseInfo>;

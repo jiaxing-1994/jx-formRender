@@ -12,7 +12,7 @@
       >
         <i
           class="cpn-icon iconfont fc_6"
-          :class="[cpnIcon[cpnType]]"
+          :class="[CPN_TYPE_TO_ICON[cpnType]]"
         ></i>
       </div>
       <p
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { cpnIcon } from "@lc/constants";
+import { CPN_TYPE_TO_ICON } from "@lc/constants";
 
 defineProps({
   label: {
