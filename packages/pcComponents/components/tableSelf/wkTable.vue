@@ -9,6 +9,10 @@
       height: `${height}px`,
     }"
   >
+    <div class="absolute-c">
+      <a-empty v-if="data.length === 0 && !load"></a-empty>
+      <wk-loading v-if="load"></wk-loading>
+    </div>
     <div class="table-header flex flex-between">
       <div
         ref="tableHeaderRef"
@@ -71,13 +75,6 @@
       ref="tableBodyRef"
       class="table-body flex flex-between flex-top"
     >
-      <a-empty
-        v-if="data.length === 0 && !load"
-        class="sticky-c"
-      ></a-empty>
-      <div class="sticky-c">
-        <wk-loading v-if="load"></wk-loading>
-      </div>
       <div
         ref="tableBodyContainerRef"
         class="table-body_container flex"
@@ -591,10 +588,10 @@ export default defineComponent({
       handleColumns(); // 分配列配置
       nextTick(() => {
         initContainerHeight(); // 初始化高度
-        initContainerWidth(); // 初始化宽度
         setColumnWidthAndLeft(fixedLeftColumns, cacheWidth.leftFixedWidth);
         setColumnWidthAndLeft(fixedRightColumns, cacheWidth.rightFixedWidth);
         setColumnWidthAndLeft(middleColumns, cacheWidth.middleWidth);
+        initContainerWidth(); // 初始化宽度
         scrollTableHeader();
       });
       getMaxRow(); // 获取最多能够展示多少行数据
@@ -751,10 +748,19 @@ function useTool() {
 </script>
 
 <style lang="less" scoped>
+.absolute-c {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+}
 .table {
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
   &-header {
     width: 100%;
     position: relative;

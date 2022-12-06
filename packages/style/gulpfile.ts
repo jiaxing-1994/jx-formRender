@@ -6,7 +6,6 @@ const concat = require("gulp-concat");
 
 // 要去掉重复bundle
 function bulidLess() {
-  debugger;
   return gulp
     .src("./src/index.less")
     .pipe(

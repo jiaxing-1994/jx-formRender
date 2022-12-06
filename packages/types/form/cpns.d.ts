@@ -57,8 +57,8 @@ export interface ExtraInfo {
   subCpns?: CpnInfo[]; // 子表格包含的控件
   rows?: number; // 容器组件行数
   cols?: number; // 容器组件列数
-  layoutWithCpns?: CpnInfo[];
-  layoutWithCpnKeys?: string[];
+  layoutWithCpns?: CpnInfo[][][];
+  layoutWithCpnKeys?: string[][][];
   colsWidth?: number[];
   cpns?: CpnRowCol[]; // 容器组件包含的控件
   tabs?: TabType[];

@@ -56,9 +56,12 @@ getFormDetailData(props.id).then((res) => {
   formDataInfo.value = res;
   isLoadingData.value = false;
 });
+// 保存数据
 const onSaveData = async () => {
   if (formRenderRef.value) {
     const data = formRenderRef.value.getData();
+    console.log(data);
+    return;
     if (data) {
       await editData({
         ...formDataInfo.value,

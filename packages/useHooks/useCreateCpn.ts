@@ -48,6 +48,7 @@ export function useCreateCpn() {
   return {
     createCpnFactory,
     createCpnValue,
+    switchValueToDisplay,
   };
 }
 
@@ -85,6 +86,11 @@ const useCpnProps = () => {
       valueFormat: "HH:mm:ss",
     };
   };
+  const getTableProps = (cpn: CpnInfo) => {
+    return {
+      subCpns: cpn.extraInfo?.subCpns || [],
+    };
+  };
   const handleProps = (cpn: CpnInfo, originProps: Record<string, any>) => {
     const { cpnType } = cpn;
     const props: Record<string, any> = {
@@ -106,6 +112,9 @@ const useCpnProps = () => {
         break;
       case "TIME":
         Object.assign(props, getTimeProps());
+        break;
+      case "TABLE":
+        Object.assign(props, getTableProps(cpn));
         break;
       default:
         break;

@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts" setup>
-// 邓雯完善
+// 邓雯完善 需要一个表格单元格中展示的样式
 import { ref, watch, onBeforeUnmount } from "vue";
 import { message } from "ant-design-vue";
 import * as wkUtils from "@wk-libs/utils";
@@ -103,7 +103,7 @@ interface FileType {
 }
 const props = withDefaults(
   defineProps<{
-    value: FileType[] | null;
+    value?: FileType[] | null;
     multiple?: boolean;
     regxType?: RegExp;
     ruleTip?: string;

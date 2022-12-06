@@ -22,7 +22,7 @@ import { RegionType } from "lc/types";
 const parentAttrs = useAttrs();
 
 const props = defineProps<{
-  value: RegionType;
+  value?: RegionType;
 }>();
 const emit = defineEmits<{
   (e: "update:value", value: RegionType): void;
@@ -50,7 +50,9 @@ const initData = (code: string) => {
 const { getRegionCode } = useFormData("noNeedTableName");
 getRegionCode().then((data) => {
   options.value = data;
-  initData(props.value.code);
+  if (props.value && props.value.code) {
+    initData(props.value.code);
+  }
 });
 watchEffect(async () => {
   if (props.value && props.value.code && options.value.length > 0) {

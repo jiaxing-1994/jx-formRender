@@ -257,6 +257,7 @@ const BASE_CPNS: Partial<CpnInfo>[] = [
     type: "base",
     defaultValue: false,
   },
+  { label: "分割符", cpnType: "SEPARATOR", cpnKey: "SEPARATOR", type: "layout" },
 ];
 
 const ADVANCE_CPNS: Partial<CpnInfo>[] = [
@@ -323,7 +324,6 @@ export const LAYOUT_CPNS: Partial<CpnInfo>[] = [
     },
     type: "layout",
   },
-  { label: "分割符", cpnType: "SEPARATOR", cpnKey: "SEPARATOR", type: "layout" },
 ];
 
 export const CPNS = [...BASE_CPNS, ...ADVANCE_CPNS, ...LAYOUT_CPNS];

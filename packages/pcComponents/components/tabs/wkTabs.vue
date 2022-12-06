@@ -10,4 +10,8 @@ import { useAttrs } from "vue";
 const parentAttrs = useAttrs();
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less">
+.ant-tabs {
+  font-size: inherit !important;
+}
+</style>

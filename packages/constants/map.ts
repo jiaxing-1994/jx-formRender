@@ -25,6 +25,7 @@ export const CPN_TYPE_TO_NAME: Record<string, string> = {
   SWITCH: "开关",
 };
 
+// 布局组件无序映射
 export const DEFAULT_TYPE_TO_CPN: Record<string, string> = {
   TEXT: "wkInput",
   TEXTAREA: "wkTextarea",
@@ -41,9 +42,7 @@ export const DEFAULT_TYPE_TO_CPN: Record<string, string> = {
   DATETIME: "wkDatePicker",
   WORD: "wkWord", // 邓雯，新写一个组件用于展示静态文案控件
   ADMINISTRATION_REGION: "wkCascader",
-  TABLE: "",
-  CONTAINER: "",
-  TAB: "",
+  TABLE: "wkSubTable",
   SEPARATOR: "wkSeparator", // 邓雯，新写一个组件用于展示分隔符控件
   LOCATION: "wkLocation",
   RICHTEXT: "wkRichText",

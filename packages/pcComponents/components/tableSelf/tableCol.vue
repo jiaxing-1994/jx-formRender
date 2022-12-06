@@ -24,7 +24,7 @@ export default defineComponent({
   },
   setup(props) {
     const asyncDataValue = ref("");
-    const getDataValue = () => {
+    const getDataValue = (isOrigin = false) => {
       if (props.column && props.data) {
         const { dataIndex, customRender, customRenderAsync } = props.column;
         if (customRender) {
@@ -49,7 +49,7 @@ export default defineComponent({
         if (dataIndex && props.data[dataIndex]) {
           return props.data[dataIndex];
         }
-        return "--";
+        return isOrigin ? null : "--";
       }
     };
 
@@ -71,7 +71,33 @@ export default defineComponent({
     });
 
     const slots = inject<any>("slots");
-    const hasSlots = computed(() => {
+    // const hasSlots = computed(() => {
+    //   if (
+    //     slots &&
+    //     slots.bodyCell &&
+    //     !props.column?.customRender &&
+    //     !props.column?.customRenderAsync
+    //   ) {
+    //     const childrens = slots.bodyCell({
+    //       text: getDataValue(),
+    //       record: props.data,
+    //       column: props.column,
+    //       index: props.rowIndex,
+    //       colIndex: props.colIndex,
+    //     });
+    //     console.log(childrens);
+    //     return (
+    //       !!(
+    //         childrens.length &&
+    //         Array.isArray(childrens[0].children) &&
+    //         childrens[0].children.length
+    //       ) && true
+    //     );
+    //   }
+    //   return false;
+    // });
+
+    const getHasSlots = () => {
       if (
         slots &&
         slots.bodyCell &&
@@ -94,9 +120,30 @@ export default defineComponent({
         );
       }
       return false;
-    });
+    };
 
     return () => {
+      let chlidrens: any[] = [];
+      const hasSlots = getHasSlots();
+      if (hasSlots) {
+        chlidrens = slots.bodyCell({
+          text: getDataValue(true),
+          record: props.data,
+          column: props.column,
+          index: props.rowIndex,
+          colIndex: props.colIndex,
+        });
+      } else {
+        chlidrens.push(
+          h(
+            "span",
+            {
+              class: "ellipsis",
+            },
+            getDataValue()
+          )
+        );
+      }
       return h(
         "div",
         {
@@ -106,26 +153,7 @@ export default defineComponent({
             left: colLeft.value,
           },
         },
-        [
-          !hasSlots.value &&
-            h(
-              "span",
-              {
-                class: "ellipsis",
-              },
-              getDataValue()
-            ),
-          hasSlots.value &&
-            slots &&
-            slots.bodyCell &&
-            slots.bodyCell({
-              text: getDataValue(),
-              record: props.data,
-              column: props.column,
-              index: props.rowIndex,
-              colIndex: props.colIndex,
-            }),
-        ]
+        chlidrens
       );
     };
   },

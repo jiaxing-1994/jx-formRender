@@ -224,11 +224,13 @@ importers:
 
   packages/formRender:
     specifiers:
+      '@lc/constants': workspace:^1.0.0
       '@lc/pcComponents': workspace:^1.0.0
       '@lc/useHooks': workspace:^1.0.0
       vue: ^3.2.32
       vuedraggable: ^4.1.0
     dependencies:
+      '@lc/constants': link:../constants
       '@lc/pcComponents': link:../pcComponents
       '@lc/useHooks': link:../useHooks
       vue: registry.npmmirror.com/vue/3.2.32

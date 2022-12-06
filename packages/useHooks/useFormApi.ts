@@ -33,10 +33,14 @@ export const useFormConfig = (headers: Record<string, string> = {}) => {
   }
   const isMobile = window.location.pathname.indexOf("/mobile/") > -1;
 
+  const { handleLayoutCpns } = useFormTools();
   // 获取表单配置详情
   const getFormDetail = async (tableName: string): Promise<Form> => {
     const form = await getFormDetailByNameService({ tableName });
-    return form;
+    return {
+      ...form,
+      cpns: handleLayoutCpns(form.cpns),
+    };
   };
   // 过滤隐藏/禁用的控件
   const getUsefulCpns = (cpns: CpnInfo[]): CpnInfo[] => {
@@ -307,9 +311,77 @@ export const useFormTools = () => {
     }
     return isFind;
   };
+
+  const handleLayoutCpns = (cpns: CpnInfo[]): CpnInfo[] => {
+    const handleContainer = (cpn: CpnInfo) => {
+      if (cpn.extraInfo?.layoutWithCpnKeys) {
+        cpn.extraInfo.layoutWithCpnKeys.forEach((rowCpnKeys, rowIndex) => {
+          rowCpnKeys.forEach((cpnKeys, colIndex) => {
+            cpnKeys.forEach((cpnKey, index) => {
+              const findIndex = cpns.findIndex((cpn) => cpn.cpnKey === cpnKey);
+              if (findIndex > -1) {
+                // 找到对应的组件
+                if (!cpn.extraInfo!.layoutWithCpns) {
+                  cpn.extraInfo!.layoutWithCpns = [];
+                }
+                if (!cpn.extraInfo!.layoutWithCpns[rowIndex]) {
+                  cpn.extraInfo!.layoutWithCpns[rowIndex] = [];
+                }
+                if (!cpn.extraInfo!.layoutWithCpns[rowIndex][colIndex]) {
+                  cpn.extraInfo!.layoutWithCpns[rowIndex][colIndex] = [];
+                }
+                if (["CONTAINER", "TAB"].includes(cpns[findIndex].cpnType)) {
+                  handleLayoutSingle(cpns[findIndex]);
+                }
+                cpn.extraInfo!.layoutWithCpns[rowIndex][colIndex][index] = cpns[findIndex];
+                cpns.splice(findIndex, 1);
+              }
+            });
+          });
+        });
+      }
+    };
+    const handleTab = (cpn: CpnInfo) => {
+      if (cpn.extraInfo?.tabs) {
+        cpn.extraInfo.tabs.forEach((tabItem) => {
+          if (tabItem.layoutWithCpnKeys) {
+            if (!tabItem.layoutWithCpns) {
+              tabItem.layoutWithCpns = [];
+            }
+            tabItem.layoutWithCpnKeys.forEach((cpnKey) => {
+              const findIndex = cpns.findIndex((cpn) => cpn.cpnKey === cpnKey);
+              if (findIndex > -1) {
+                handleLayoutSingle(cpns[findIndex]);
+                tabItem.layoutWithCpns!.push(cpns[findIndex]);
+                cpns.splice(findIndex, 1);
+              }
+            });
+          }
+        });
+      }
+    };
+    const handleLayoutSingle = (cpn: CpnInfo) => {
+      const { cpnType } = cpn;
+      switch (cpnType) {
+        case "CONTAINER":
+          handleContainer(cpn);
+          break;
+        case "TAB":
+          handleTab(cpn);
+          break;
+        default:
+          break;
+      }
+    };
+    [...cpns].forEach((cpn) => {
+      handleLayoutSingle(cpn);
+    });
+    return cpns;
+  };
   return {
-    getParentTrees,
     getValidator,
+    getParentTrees,
+    handleLayoutCpns,
     getTabelColumns,
     getSearchConditionData,
   };
