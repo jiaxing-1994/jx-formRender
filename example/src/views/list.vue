@@ -23,17 +23,19 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
-const tableName = "formTableName_9r38n6";
+import { useRouter, useRoute } from "vue-router";
+
+const { query } = useRoute();
+const tableName = query.tableName || "formTableName_9r38n6";
 const headers = {
   source: "DolphinSchedule",
 };
 const searchConditions = {};
 const { push } = useRouter();
 const onToAdd = () => {
-  push("/add");
+  push(`/add?tableName=${tableName}`);
 };
 const onToDetail = (id: string) => {
-  push(`/detail/${id}`);
+  push(`/detail/${id}?tableName=${tableName}`);
 };
 </script>

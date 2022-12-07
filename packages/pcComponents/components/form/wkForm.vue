@@ -23,6 +23,7 @@ const props = withDefaults(
     layout?: string;
     model?: Record<string, any>;
     rules?: Record<string, RuleType[]>;
+    ignoreKeys?: string[];
   }>(),
   {
     layout: "horizontal",
@@ -49,7 +50,7 @@ const validator = new Validator();
 const validate = (): Record<string, any> | null => {
   let errRes: boolean | Record<string, ErrorType[]> = true;
   if (props.model && props.rules) {
-    errRes = validator.validatorObj(props.model, props.rules);
+    errRes = validator.validatorObj(props.model, props.rules, props.ignoreKeys);
     errRes !== true ? (errObj.value = errRes) : (errObj.value = {});
   }
   return errRes === true ? props.model || {} : null;

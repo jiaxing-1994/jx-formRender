@@ -7,6 +7,7 @@
 
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
-const tableName = "formTableName_9r38n6";
-const { params } = useRoute();
+
+const { params, query } = useRoute();
+const tableName = query.tableName || "formTableName_9r38n6";
 </script>

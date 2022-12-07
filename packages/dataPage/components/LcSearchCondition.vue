@@ -109,13 +109,14 @@ export default defineComponent({
           },
         },
         {
-          label: () =>
-            h(LcSearchLabel, {
+          label: () => {
+            return h(LcSearchLabel, {
               cpn,
               onChange: (value: string) => {
                 searchTypes.value[cpn.cpnKey] = value;
               },
-            }),
+            });
+          },
           default: () =>
             createCpnFactory(
               cpn,

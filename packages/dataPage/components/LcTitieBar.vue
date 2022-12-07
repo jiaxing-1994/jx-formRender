@@ -1,6 +1,6 @@
 <template>
   <header class="flex flex-between pd_1">
-    <h3>详情</h3>
+    <h3>{{ type === "add" ? "新增" : "详情" }}</h3>
     <div>
       <wk-button
         v-if="isEditShow"

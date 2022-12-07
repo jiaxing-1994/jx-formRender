@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent, h, ref, watchEffect, PropType, resolveComponent } from "vue";
+import { defineComponent, h, ref, watch, watchEffect, resolveComponent, PropType } from "vue";
 import type { WkForm, RuleType } from "@lc/pcComponents";
-import { useCreateCpn, useNamespace, useFormTools } from "@lc/useHooks";
+import { useCreateCpn, useNamespace, useFormTools, useFormActions } from "@lc/useHooks";
 import { LAYOUT_CPNS } from "@lc/constants";
 import { CpnInfo } from "lc/types";
 
@@ -63,12 +63,34 @@ export default defineComponent({
         } else {
           formModel.value[cpnKey] = (model && model[cpnKey]) || value;
           formRules.value[cpnKey] = getValidator(cpn, cpn.validators);
+          getHideOrShowCpnKey(cpn);
         }
       });
     };
+
+    const { hideCpnKeys, linkHideOrShowCpnKeys, execActions, getHideOrShowCpnKey } =
+      useFormActions(formModel);
+
     watchEffect(() => {
       initData(props.cpns || [], props.model || {});
+      console.log(linkHideOrShowCpnKeys.value);
     });
+
+    // 触发关联动作
+    const onTriggerActions = (cpn: CpnInfo, triggerType: string) => {
+      if (linkHideOrShowCpnKeys.value[cpn.cpnKey]) {
+        onTriggerActions(linkHideOrShowCpnKeys.value[cpn.cpnKey], triggerType);
+      }
+      if (cpn.actions) {
+        try {
+          const actions = JSON.parse(cpn.actions);
+          execActions(actions, cpn.cpnKey, triggerType);
+        } catch (e: any) {
+          alert("解析actions失败");
+          throw new Error(e);
+        }
+      }
+    };
 
     // 外部获取表单数据的唯一方法
     const getData = () => {
@@ -91,6 +113,7 @@ export default defineComponent({
           layout: "horizontal",
           model: formModel.value,
           rules: props.isEdit ? formRules.value : [],
+          ignoreKeys: hideCpnKeys.value,
         },
         () => children
       );
@@ -103,13 +126,20 @@ export default defineComponent({
           name: cpn.cpnKey,
           label: !cpn.hideLabel ? cpn.lable : undefined,
           class: [`w_${cpn.layout.gridX}`],
+          style: {
+            display: hideCpnKeys.value.includes(cpn.cpnKey) ? "none" : "inherit",
+          },
         },
         () =>
           props.isEdit
             ? createCpnFactory(cpn, {
                 value: formModel.value[cpn.cpnKey],
                 "onUpdate:value": (value: any) => {
-                  return (formModel.value[cpn.cpnKey] = value);
+                  formModel.value[cpn.cpnKey] = value;
+                  onTriggerActions(cpn, "change");
+                },
+                onClick: () => {
+                  onTriggerActions(cpn, "click");
                 },
                 isEdit: props.isEdit,
               })
@@ -118,6 +148,9 @@ export default defineComponent({
                 {
                   value: formModel.value[cpn.cpnKey],
                   isEdit: props.isEdit,
+                  onClick: () => {
+                    onTriggerActions(cpn, "click");
+                  },
                 },
                 formModel.value[cpn.cpnKey]
               )
@@ -179,6 +212,7 @@ export default defineComponent({
     const createRender = (cpns: CpnInfo[]) => {
       const childrens: any[] = [];
       cpns.forEach((cpn) => {
+        console.log(1);
         const { cpnType } = cpn;
         const isLayoutCpn = LAYOUT_CPNS.find((item) => item.cpnType === cpnType);
         if (isLayoutCpn) {

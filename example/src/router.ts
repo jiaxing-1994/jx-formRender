@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw, Router } from "vue-rout
 import list from "./views/list.vue";
 import add from "./views/add.vue";
 import detail from "./views/detail.vue";
+import iframePage from "./views/iframePage.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -18,6 +19,11 @@ const routes: RouteRecordRaw[] = [
     path: "/detail/:id",
     name: "detail",
     component: detail,
+  },
+  {
+    path: "/iframePage",
+    name: "iframePage",
+    component: iframePage,
   },
 ];
 

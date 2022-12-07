@@ -107,3 +107,53 @@ export interface SearchMarkDetailType {
   symbol: string;
   value: string;
 }
+
+export enum ActionTriggerEnum {
+  change = "change",
+  click = "click",
+  choose = "choose",
+}
+export enum ActionEnum {
+  code = "code",
+  hideOrShow = "hideOrShow",
+  modal = "modal",
+  jumpPage = "jumpPage",
+}
+
+export interface Action<K extends keyof ActionContent> {
+  type: ActionEnum; // 动作类型 隐藏/显示、执行代码、弹窗、跳转页面
+  trigger: ActionTriggerEnum; // 类型为执行代码时候，触发方式
+  action: ActionContent[K];
+}
+
+export interface ActionContent {
+  code: string; // 执行代码
+  hideOrShow: ActionHide; // 隐藏/显示控件
+  modal: ActionModal; // 弹窗控件
+  jumpPage: ActionJumpPage; // 跳转页面
+}
+
+// 隐藏/显示
+export interface ActionHide {
+  resultType: string; // 隐藏/显示控件
+  cpnsType: string; // 多个控件的满足关系，且/或
+  cpns: ActionCpn[]; // 控件数组
+}
+
+export interface ActionCpn {
+  cpnKey: string; // 类型为隐藏时候，绑定的控件
+  valueArr: (string | number)[]; // 类型为隐藏时候，绑定控件的值，如果值相等则隐藏
+}
+
+// 弹窗
+export interface ActionModal {
+  title: string; // 弹窗标题
+  content: CpnInfo[]; // 弹窗内容
+  onKey?: string; // 点击确认执行的代码，支持异步
+}
+
+// 跳转页面
+export interface ActionJumpPage {
+  url: string; // 跳转地址，http开头则为跳转外部链接，否则为跳转内部页面
+  queryCode: string; // 通过代码获取参数，实现依靠其他控件的值动态变化的参数
+}

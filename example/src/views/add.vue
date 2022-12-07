@@ -3,5 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-const tableName = "formTableName_9r38n6";
+import { useRoute } from "vue-router";
+
+const { query } = useRoute();
+const tableName = query.tableName || "formTableName_9r38n6";
 </script>

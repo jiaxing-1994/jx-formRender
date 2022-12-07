@@ -1,22 +1,26 @@
 // 主要用于获取表单配置数据
-import { ref } from "vue";
-import { isUseful, isArray, isObject } from "@wk-libs/utils";
+import { ref, Ref } from "vue";
+import { useRouter } from "vue-router";
+import { generateUrlParams, isArray, isObject, isUseful } from "@wk-libs/utils";
 import {
-  setGlobalHeaders,
-  getFormDetailByNameService,
-  postFormDataListService,
+  delFormDataByIdsService,
+  getAllRegionService,
   getFormDataByIdService,
+  getFormDetailByNameService,
+  getImportTemplateFileService,
   postFormDataExportService,
   postFormDataImportService,
-  getImportTemplateFileService,
+  postFormDataListService,
   postFormDataSingleService,
-  delFormDataByIdsService,
   putFormDataByIdService,
-  getAllRegionService,
+  setGlobalHeaders,
 } from "@lc/apiService";
 import { CAN_NOT_SEARCH_CPNS, CAN_NOT_SHOW_CPNS_IN_LIST } from "@lc/constants";
 import { useDownload } from "./useFile";
 import {
+  Action,
+  ActionContent,
+  ActionEnum,
   CpnInfo,
   Form,
   ListUrlQuery,
@@ -384,5 +388,124 @@ export const useFormTools = () => {
     handleLayoutCpns,
     getTabelColumns,
     getSearchConditionData,
+  };
+};
+
+// 表单关联动作
+export const useFormActions = (formModel: Ref<Record<string, any>>) => {
+  const hideCpnKeys = ref<string[]>([]);
+  const linkHideOrShowCpnKeys = ref<Record<string, CpnInfo>>({});
+  const execActions = (
+    actions: Action<keyof ActionContent>[],
+    cpnKey: string,
+    triggerType: string
+  ) => {
+    actions.forEach((action) => {
+      if (action.trigger === triggerType) {
+        switch (action.type) {
+          case ActionEnum.code:
+            execCodeAction(action as Action<ActionEnum.code>, cpnKey);
+            break;
+          case ActionEnum.hideOrShow:
+            execHideOrShowAction(action as Action<ActionEnum.hideOrShow>, cpnKey);
+          case ActionEnum.jumpPage:
+            execJumpPageAction(action as Action<ActionEnum.jumpPage>, cpnKey);
+            break;
+        }
+      }
+    });
+  };
+  const execCodeAction = (action: Action<ActionEnum.code>, cpnKey: string) => {
+    const fn = new Function("value", "formState", "formData", "utils", action.action);
+    try {
+      fn(formModel.value[cpnKey], formModel, formModel.value, {});
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+  const execHideOrShowAction = (action: Action<ActionEnum.hideOrShow>, cpnKey: string) => {
+    //   resultType: string; // 隐藏/显示控件
+    //   cpnsType: string; // 多个控件的满足关系，且/或
+    //   cpns: ActionCpn[]; // 控件数组
+    const { resultType, cpnsType, cpns } = action.action;
+    let hasTrue = false; // 是否存在匹配的
+    let hasFalse = false; // 是否存在不匹配的
+    cpns.forEach((cpn) => {
+      const { cpnKey, valueArr } = cpn;
+      const find = valueArr.find((value) => String(value) === String(formModel.value[cpnKey]));
+      find ? (hasTrue = true) : (hasFalse = true);
+    });
+    let isHide = false;
+    switch (resultType) {
+      case "hide":
+        isHide = cpnsType === "and" ? !hasFalse : hasTrue;
+        break;
+      case "show":
+        isHide = cpnsType === "and" ? hasFalse : !hasTrue;
+        break;
+    }
+    if (isHide) {
+      if (!hideCpnKeys.value.includes(cpnKey)) {
+        hideCpnKeys.value.push(cpnKey);
+      }
+    } else {
+      const findIndex = hideCpnKeys.value.findIndex((hideCpnKey) => hideCpnKey === cpnKey);
+      if (findIndex > -1) {
+        hideCpnKeys.value.splice(findIndex, 1);
+      }
+    }
+  };
+  // 获取有隐藏/显示关联的控件
+  const getHideOrShowCpnKey = (cpn: CpnInfo) => {
+    if (cpn.actions) {
+      const actions: Action<keyof ActionContent>[] = JSON.parse(cpn.actions);
+      actions.forEach((action) => {
+        if (action.type === ActionEnum.hideOrShow) {
+          (action as Action<ActionEnum.hideOrShow>).action.cpns.forEach((actionCpn) => {
+            linkHideOrShowCpnKeys.value[actionCpn.cpnKey] = cpn;
+          });
+        }
+      });
+    }
+  };
+  const Router = useRouter();
+  const execJumpPageAction = (action: Action<ActionEnum.jumpPage>, cpnKey: string) => {
+    const { url, queryCode } = action.action;
+    if (url) {
+      const query = {};
+      if (queryCode) {
+        const fn = new Function("value", "formState", "formData", "utils", queryCode);
+        const res = fn(formModel.value[cpnKey], formModel, formModel.value, {});
+        if (isObject(res)) {
+          Object.assign(query, res);
+        }
+      }
+      if (/^https?:/.test(url)) {
+        // 说明跳转外部
+        Router.push({
+          path: "/iframePage",
+          query: {
+            urlQuery: generateUrlParams(query),
+            url,
+          },
+        });
+      } else {
+        // 说明跳转内部
+        Router.push({
+          path: url,
+          query,
+        });
+      }
+    }
+  };
+
+  return {
+    hideCpnKeys,
+    linkHideOrShowCpnKeys,
+    execActions,
+    execCodeAction,
+    execJumpPageAction,
+    getHideOrShowCpnKey,
+    execHideOrShowAction,
   };
 };

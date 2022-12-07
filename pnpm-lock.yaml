@@ -252,25 +252,25 @@ importers:
       '@tiptap/starter-kit': ~2.0.0-beta.191
       '@tiptap/vue-3': ~2.0.0-beta.96
       '@wk-libs/utils': 1.0.6
-      '@wk-libs/validator': ^1.0.17
+      '@wk-libs/validator': 1.0.18
       ant-design-vue: ^3.2.3
       vite: ^2.7.13
     dependencies:
       '@ant-design/icons-vue': registry.npmmirror.com/@ant-design/icons-vue/6.1.0
       '@lc/useHooks': link:../useHooks
       '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
-      '@tiptap/extension-document': registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204
-      '@tiptap/extension-paragraph': registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204
+      '@tiptap/extension-document': registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam
+      '@tiptap/extension-paragraph': registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-table': registry.npmmirror.com/@tiptap/extension-table/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-table-cell': registry.npmmirror.com/@tiptap/extension-table-cell/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-table-header': registry.npmmirror.com/@tiptap/extension-table-header/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-table-row': registry.npmmirror.com/@tiptap/extension-table-row/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
-      '@tiptap/extension-text': registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204
+      '@tiptap/extension-text': registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-text-align': registry.npmmirror.com/@tiptap/extension-text-align/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/starter-kit': registry.npmmirror.com/@tiptap/starter-kit/2.0.0-beta.199
       '@tiptap/vue-3': registry.npmmirror.com/@tiptap/vue-3/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@wk-libs/utils': 1.0.6
-      '@wk-libs/validator': 1.0.17
+      '@wk-libs/validator': 1.0.18
       ant-design-vue: registry.npmmirror.com/ant-design-vue/3.2.13
       vite: 2.9.1
 
@@ -322,8 +322,8 @@ packages:
     resolution: {integrity: sha512-XGEu2t0w16QIakEqgWOJk2hkcOp+5wpdfIexYy1bBrabf5Ah8hzpWgdde50D/yDkjGoBfxMzdUCYTeTv9WP76g==, tarball: '@wk-libs/utils/-/@wk-libs/utils-1.0.7.tgz'}
     dev: false
 
-  /@wk-libs/validator/1.0.17:
-    resolution: {integrity: sha512-5stbbmM1MTHSfsGP5t0myFYrue15fLQGA31djJvvGls/z8LCnEIzbDpxKqMSC4xQWlTLgmQcTzejz0bDV5zk8g==, tarball: '@wk-libs/validator/-/@wk-libs/validator-1.0.17.tgz'}
+  /@wk-libs/validator/1.0.18:
+    resolution: {integrity: sha512-T69Y5ZIMebqAUGgrIAE6TaTSIRPlCTsNPE1j3I7hN680CgCn0N21hHT+8U2XaUCZYdqxGXc8iIsmUeQ0RUnbPw==, tarball: '@wk-libs/validator/-/@wk-libs/validator-1.0.18.tgz'}
     dependencies:
       '@wk-libs/utils': 1.0.7
     dev: false
@@ -4139,10 +4139,15 @@ packages:
       '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
     dev: false
 
-  registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204:
+  registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam:
     resolution: {integrity: sha512-1WrL8MWGJ8CCHIg6wZNI6mZ44BNiJYfiZnNPZia/dZlp+B/XxvBHoFuPOGWl7kw0Ow135NUaS8kxfEewtSJUDA==, registry: https://packages.aliyun.com/5fc3459e2f8cc15c287b61af/npm/npm-registry/, tarball: https://registry.npmmirror.com/@tiptap/extension-document/-/extension-document-2.0.0-beta.204.tgz}
+    id: registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204
     name: '@tiptap/extension-document'
     version: 2.0.0-beta.204
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.193
+    dependencies:
+      '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
     dev: false
 
   registry.npmmirror.com/@tiptap/extension-dropcursor/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam:
@@ -4262,10 +4267,15 @@ packages:
       '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
     dev: false
 
-  registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204:
+  registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam:
     resolution: {integrity: sha512-Vdo0qKsD3TjgiJlVUqyV/lkFH2MlmMPt3q0+qHqoQhG/Rirm4vzrStHfZmX6nASbXSiQJvKEVoQ18+Nk739jsA==, registry: https://packages.aliyun.com/5fc3459e2f8cc15c287b61af/npm/npm-registry/, tarball: https://registry.npmmirror.com/@tiptap/extension-paragraph/-/extension-paragraph-2.0.0-beta.204.tgz}
+    id: registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204
     name: '@tiptap/extension-paragraph'
     version: 2.0.0-beta.204
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.193
+    dependencies:
+      '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
     dev: false
 
   registry.npmmirror.com/@tiptap/extension-strike/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam:
@@ -4338,10 +4348,15 @@ packages:
       '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
     dev: false
 
-  registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204:
+  registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam:
     resolution: {integrity: sha512-YTUlmhdiaTRvsbxTa1VUZ2BNgsaud1OF2nSC6a3kEplREoVzJW+pbJxc1sdM5yhOW3JdXMJVTl56H30Cos4tAA==, registry: https://packages.aliyun.com/5fc3459e2f8cc15c287b61af/npm/npm-registry/, tarball: https://registry.npmmirror.com/@tiptap/extension-text/-/extension-text-2.0.0-beta.204.tgz}
+    id: registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204
     name: '@tiptap/extension-text'
     version: 2.0.0-beta.204
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.193
+    dependencies:
+      '@tiptap/core': registry.npmmirror.com/@tiptap/core/2.0.0-beta.199
     dev: false
 
   registry.npmmirror.com/@tiptap/starter-kit/2.0.0-beta.199:
@@ -4355,7 +4370,7 @@ packages:
       '@tiptap/extension-bullet-list': registry.npmmirror.com/@tiptap/extension-bullet-list/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-code': registry.npmmirror.com/@tiptap/extension-code/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-code-block': registry.npmmirror.com/@tiptap/extension-code-block/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
-      '@tiptap/extension-document': registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204
+      '@tiptap/extension-document': registry.npmmirror.com/@tiptap/extension-document/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-dropcursor': registry.npmmirror.com/@tiptap/extension-dropcursor/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-gapcursor': registry.npmmirror.com/@tiptap/extension-gapcursor/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-hard-break': registry.npmmirror.com/@tiptap/extension-hard-break/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
@@ -4365,9 +4380,9 @@ packages:
       '@tiptap/extension-italic': registry.npmmirror.com/@tiptap/extension-italic/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-list-item': registry.npmmirror.com/@tiptap/extension-list-item/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-ordered-list': registry.npmmirror.com/@tiptap/extension-ordered-list/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
-      '@tiptap/extension-paragraph': registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204
+      '@tiptap/extension-paragraph': registry.npmmirror.com/@tiptap/extension-paragraph/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam
       '@tiptap/extension-strike': registry.npmmirror.com/@tiptap/extension-strike/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam
-      '@tiptap/extension-text': registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204
+      '@tiptap/extension-text': registry.npmmirror.com/@tiptap/extension-text/2.0.0-beta.204_4focsuckzeocqotdxlryrtksam
     dev: false
 
   registry.npmmirror.com/@tiptap/vue-3/2.0.0-beta.199_4focsuckzeocqotdxlryrtksam:

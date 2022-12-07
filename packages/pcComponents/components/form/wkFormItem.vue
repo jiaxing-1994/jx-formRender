@@ -8,10 +8,13 @@
   >
     <div :class="[u('wrap')]">
       <div
-        v-if="!isNoLabel"
+        v-if="!isNoLabelText || !isNoLabelSlot"
         :class="[u('label')]"
       >
-        <label :class="[isRequired && u('label', 'required')]">
+        <label
+          v-if="!isNoLabelText"
+          :class="[isRequired && u('label', 'required')]"
+        >
           {{ label }}
         </label>
         <slot name="label"></slot>
@@ -20,7 +23,7 @@
         :class="[
           u('content'),
           errMsg && 'ant-form-item-has-error',
-          !isNoLabel && u('content', 'label'),
+          !(isNoLabelText && isNoLabelSlot) && u('content', 'label'),
         ]"
       >
         <div :class="[u('content', 'wrap')]">
@@ -78,8 +81,12 @@ const errMsg = computed(() => {
 const isRequired = computed(() => rule.value.find((item) => item.validatorType === "REQUIRED"));
 
 const slots = useSlots();
-const isNoLabel = computed(() => {
-  return slots.label || !props.label;
+
+const isNoLabelText = computed(() => {
+  return !props.label;
+});
+const isNoLabelSlot = computed(() => {
+  return !slots.label;
 });
 </script>
 
