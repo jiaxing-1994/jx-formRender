@@ -23,10 +23,11 @@ const props = defineProps<{
   headers?: Record<string, string>;
 }>();
 
-const { getFormDetail, getDetailPageCpns } = useFormConfig(props.headers);
+const { addData, getFormDetail } = useFormData(props.tableName);
+const { getDetailPageCpns } = useFormConfig(props.headers);
 const cpns = ref<CpnInfo[]>([]);
 const isLoading = ref(true);
-getFormDetail(props.tableName).then((form: Form) => {
+getFormDetail().then((form: Form) => {
   cpns.value = getDetailPageCpns(form.cpns);
   isLoading.value = false;
 });
@@ -35,7 +36,6 @@ const formRenderRef = ref<InstanceType<FormRender>>();
 
 const { go } = useRouter();
 
-const { addData } = useFormData(props.tableName);
 const onSaveData = async () => {
   if (formRenderRef.value) {
     const data = formRenderRef.value.getData();

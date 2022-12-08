@@ -130,7 +130,7 @@ importers:
 
   packages/apiService:
     specifiers:
-      '@wk-libs/http': 1.0.7
+      '@wk-libs/http': ^1.0.7
     dependencies:
       '@wk-libs/http': 1.0.7
 
@@ -296,10 +296,12 @@ importers:
     specifiers:
       '@lc/apiService': workspace:^1.0.0
       '@lc/constants': workspace:^1.0.0
+      '@wk-libs/storage': 1.0.8
       '@wk-libs/utils': 1.0.7
     dependencies:
       '@lc/apiService': link:../apiService
       '@lc/constants': link:../constants
+      '@wk-libs/storage': 1.0.8
       '@wk-libs/utils': 1.0.7
 
 packages:
@@ -314,12 +316,22 @@ packages:
       - debug
     dev: false
 
+  /@wk-libs/storage/1.0.8:
+    resolution: {integrity: sha512-Xvdi3narlvid9UbfolbJqIkCBrwWZ1OByI6JDRgnYVQur3gm1gOEySc8LQmUVH1D4XLI6fAKEMz+NgK/1vphmQ==, tarball: '@wk-libs/storage/-/@wk-libs/storage-1.0.8.tgz'}
+    dependencies:
+      '@wk-libs/utils': 1.0.8
+    dev: false
+
   /@wk-libs/utils/1.0.6:
     resolution: {integrity: sha512-umZ0wUc3hyxGZmsHqNx8UzxzGU3Mwv+bEIHY1lT8Gw65Dso9bYCzcp7gXWrRSDAs4nHK2YLU7JhP0kIJD/RE2w==, tarball: '@wk-libs/utils/-/@wk-libs/utils-1.0.6.tgz'}
     dev: false
 
   /@wk-libs/utils/1.0.7:
     resolution: {integrity: sha512-XGEu2t0w16QIakEqgWOJk2hkcOp+5wpdfIexYy1bBrabf5Ah8hzpWgdde50D/yDkjGoBfxMzdUCYTeTv9WP76g==, tarball: '@wk-libs/utils/-/@wk-libs/utils-1.0.7.tgz'}
+    dev: false
+
+  /@wk-libs/utils/1.0.8:
+    resolution: {integrity: sha512-F8ZyahsLND4Tnt3sAb+uKr1xk58osGbCxv2UB1ubfNYCErQZXZoibQYurqsJ3n6YxCKa5tFu/wtf+ibzEDipyA==, tarball: '@wk-libs/utils/-/@wk-libs/utils-1.0.8.tgz'}
     dev: false
 
   /@wk-libs/validator/1.0.18:

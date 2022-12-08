@@ -13,6 +13,9 @@ export function useCreateCpn() {
   ) => {
     const { cpnType } = cpn;
     if (keyMap[cpnType]) {
+      console.log(keyMap[cpnType]);
+      console.log(resolveComponent(keyMap[cpnType]));
+      console.log(handleProps(cpn, props));
       return h(resolveComponent(keyMap[cpnType]), handleProps(cpn, props));
     }
     return null;
@@ -68,6 +71,7 @@ const useCpnProps = () => {
     return {
       options: cpn.extraInfo?.options || [],
       mode: cpn.extraInfo?.multiSelect || cpn.cpnType === "CHECKBOX" ? "multiple" : "",
+      extraId: cpn.dynamicOpts || "",
       fieldNames: {
         label: "value",
         value: "key",

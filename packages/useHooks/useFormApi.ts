@@ -1,19 +1,29 @@
 // 主要用于获取表单配置数据
 import { ref, Ref } from "vue";
 import { useRouter } from "vue-router";
-import { generateUrlParams, isArray, isObject, isUseful } from "@wk-libs/utils";
 import {
-  delFormDataByIdsService,
+  generateUrlParams,
+  isArray,
+  isObject,
+  isUseful,
+  isString,
+  parseUrlParams,
+} from "@wk-libs/utils";
+import Storage from "@wk-libs/storage";
+import Http, {
+  setGlobalHeaders,
   getAllRegionService,
+  putFormDataByIdService,
   getFormDataByIdService,
-  getFormDetailByNameService,
-  getImportTemplateFileService,
+  getExtraApiByIdService,
+  delFormDataByIdsService,
+  postFormDataListService,
   postFormDataExportService,
   postFormDataImportService,
-  postFormDataListService,
   postFormDataSingleService,
-  putFormDataByIdService,
-  setGlobalHeaders,
+  getFormDetailByNameService,
+  getImportTemplateFileService,
+  AxiosRequestConfig,
 } from "@lc/apiService";
 import { CAN_NOT_SEARCH_CPNS, CAN_NOT_SHOW_CPNS_IN_LIST } from "@lc/constants";
 import { useDownload } from "./useFile";
@@ -29,23 +39,16 @@ import {
   RuleType,
 } from "../types/index.d";
 
+const storage = new Storage("lc", { strategy: "h5" });
 const cacheHeaders: Record<string, string> = {};
 // 表单配置信息相关
 export const useFormConfig = (headers: Record<string, string> = {}) => {
-  if (Object.keys(headers).length > 0) {
-    setGlobalHeaders(headers);
-  }
+  setGlobalHeaders({
+    ...headers,
+  });
+
   const isMobile = window.location.pathname.indexOf("/mobile/") > -1;
 
-  const { handleLayoutCpns } = useFormTools();
-  // 获取表单配置详情
-  const getFormDetail = async (tableName: string): Promise<Form> => {
-    const form = await getFormDetailByNameService({ tableName });
-    return {
-      ...form,
-      cpns: handleLayoutCpns(form.cpns),
-    };
-  };
   // 过滤隐藏/禁用的控件
   const getUsefulCpns = (cpns: CpnInfo[]): CpnInfo[] => {
     if (!isArray(cpns)) {
@@ -109,7 +112,6 @@ export const useFormConfig = (headers: Record<string, string> = {}) => {
   };
 
   return {
-    getFormDetail,
     getCanSearchCpns,
     getTableListCpns,
     getAddPageCpns,
@@ -123,11 +125,26 @@ export const useFormData = (tableName: string, headers: Record<string, string> =
     alert("数据库表名不能为空");
     throw new Error("数据库表名不能为空");
   }
+  const { getUrlParams, getHeadersInUrl } = useFormTools();
+  setGlobalHeaders({
+    ...getHeadersInUrl(getUrlParams(tableName, "headers")),
+    ...headers,
+  });
   if (Object.keys(headers).length > 0) {
     setGlobalHeaders(headers);
   }
   const { downloadFile } = useDownload(cacheHeaders);
   const listData = ref<Record<string, any>[]>([]);
+
+  const { handleLayoutCpns } = useFormTools();
+  // 获取表单配置详情
+  const getFormDetail = async (): Promise<Form> => {
+    const form = await getFormDetailByNameService({ tableName });
+    return {
+      ...form,
+      cpns: handleLayoutCpns(form.cpns),
+    };
+  };
 
   // 获取表单列表数据
   const getFormListData = async (query: OptionBodyQuery[], params: ListUrlQuery) => {
@@ -193,6 +210,7 @@ export const useFormData = (tableName: string, headers: Record<string, string> =
     addData,
     delData,
     editData,
+    getFormDetail,
     getRegionCode,
     exportListData,
     importListData,
@@ -316,6 +334,7 @@ export const useFormTools = () => {
     return isFind;
   };
 
+  // 处理布局组件
   const handleLayoutCpns = (cpns: CpnInfo[]): CpnInfo[] => {
     const handleContainer = (cpn: CpnInfo) => {
       if (cpn.extraInfo?.layoutWithCpnKeys) {
@@ -382,7 +401,38 @@ export const useFormTools = () => {
     });
     return cpns;
   };
+
+  // 处理url参数
+  const getUrlParams = (tableName: string, key?: string) => {
+    const urlParams = parseUrlParams();
+    const localParams = storage.getLocal(tableName);
+    if (localParams) {
+      // 对比当前url和本地缓存，如果是相同的key，则以url为准
+      for (const key in localParams) {
+        if (!urlParams[key]) {
+          urlParams[key] = localParams[key];
+        }
+      }
+    }
+    storage.setLocal(tableName, urlParams);
+    if (key && urlParams[key]) {
+      return urlParams[key];
+    }
+    return urlParams;
+  };
+  // 处理url中的headers
+  const getHeadersInUrl = (headerStr: string): Record<string, string> => {
+    const headerArr = headerStr.split(",");
+    const headers: Record<string, string> = {};
+    headerArr.forEach((header) => {
+      const [key, value] = header.split(":");
+      headers[key] = value;
+    });
+    return headers;
+  };
   return {
+    getUrlParams,
+    getHeadersInUrl,
     getValidator,
     getParentTrees,
     handleLayoutCpns,
@@ -507,5 +557,67 @@ export const useFormActions = (formModel: Ref<Record<string, any>>) => {
     execJumpPageAction,
     getHideOrShowCpnKey,
     execHideOrShowAction,
+  };
+};
+
+// 表单外部接口
+export const useFormExtraApi = () => {
+  // 获取接口详情
+  const getExtraById = async (id: string) => {
+    return await getExtraApiByIdService(id);
+  };
+  // 获取外部接口值
+  const getExtraApiResult = async <T>(id: string) => {
+    const extraApi = await getExtraById(id);
+    return async (keyword: string): Promise<T> => {
+      const { url, method, searchKey, idKey, onSuccess, onError } = extraApi;
+      const query: Record<string, string | number> = {};
+      const params: Record<string, string | number> = {};
+      if (method === "get") {
+        params[searchKey || idKey || "name"] = keyword;
+      } else if (keyword) {
+        query[searchKey || idKey || "name"] = keyword;
+      }
+      return await getOutSideApi<T>(
+        {
+          url: replaceUrl(url),
+          method,
+          data: query,
+          params,
+          headers: cacheHeaders,
+        },
+        onSuccess,
+        onError
+      );
+    };
+  };
+  const replaceUrl = (url: string) => {
+    if (isString(url)) {
+      return url.replace(/\${ip}/, () => {
+        return "182.148.114.194:30080" || window.location.host;
+      });
+    }
+    throw new Error("url类型错误");
+  };
+  // 调用外部接口
+  const getOutSideApi = async <T>(
+    options: AxiosRequestConfig = {},
+    onSuccess?: string,
+    onError?: string
+  ): Promise<T> => {
+    const res = await Http.request<T>(options);
+    let result = res;
+    if (onSuccess) {
+      result = new Function("data", onSuccess)(res);
+    }
+    if (onError) {
+      new Function("data", onError)(res);
+    }
+    return result;
+  };
+  return {
+    getExtraById,
+    getExtraApiResult,
+    getOutSideApi,
   };
 };

@@ -6,7 +6,7 @@ import {
   FormQuery,
   ExportResult,
   FormListQuery,
-} from "../../types";
+} from "lc/types/index.d";
 
 enum Api {
   addForm = "/form",
@@ -30,19 +30,19 @@ export function putEditFormService(query: FormQuery): Promise<null> {
   return Http.put(Api.editForm, ApiServeType.formEngine, query);
 }
 
-export function delFormService(query: IDQuery): Promise<null> {
+export function delFormService(query: Record<string, string>): Promise<null> {
   return Http.del(Api.delForm, ApiServeType.formEngine, query);
 }
 
-export function delFormBySoftService(query: IDQuery): Promise<null> {
+export function delFormBySoftService(query: Record<string, string>): Promise<null> {
   return Http.del(Api.softDelForm, ApiServeType.formEngine, query);
 }
 
-export function getFormListService(query: FormListQuery): Promise<PageResult<FormBaseInfo[]>> {
+export function getFormListService(query: FormListQuery): Promise<FormBaseInfo[]> {
   return Http.get(Api.queryFormList, ApiServeType.formEngine, query);
 }
 
-export function getFormDetailService(query: IDQuery): Promise<Form> {
+export function getFormDetailService(query: Record<string, string>): Promise<Form> {
   return Http.get(Api.getFormDetail, ApiServeType.formEngine, query);
 }
 

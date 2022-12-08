@@ -29,11 +29,12 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { getFormDetail, getDetailPageCpns } = useFormConfig(props.headers);
+const { getFormDetailData, editData, getFormDetail } = useFormData(props.tableName);
+const { getDetailPageCpns } = useFormConfig(props.headers);
 const cpns = ref<CpnInfo[]>([]);
 const configuration = ref<Configuration>();
 const isLoading = ref(true);
-getFormDetail(props.tableName).then((form: Form) => {
+getFormDetail().then((form: Form) => {
   cpns.value = getDetailPageCpns(form.cpns);
   console.log(cpns.value);
   configuration.value = form.configuration;
@@ -49,7 +50,6 @@ const isShowEdit = computed(() => {
 
 const formRenderRef = ref<InstanceType<FormRender>>();
 
-const { getFormDetailData, editData } = useFormData(props.tableName);
 const formDataInfo = ref<Record<string, any>>({});
 const isLoadingData = ref(true);
 getFormDetailData(props.id).then((res) => {

@@ -62,7 +62,12 @@ if (!props.tableName) {
 
 const { u } = useNamespace("lc-data-list");
 
-const { getFormDetail, getCanSearchCpns, getTableListCpns } = useFormConfig();
+// 查询数据
+const { listData, getFormListData, delData, getFormDetail } = useFormData(
+  props.tableName,
+  props.headers
+);
+const { getCanSearchCpns, getTableListCpns } = useFormConfig();
 
 const formInfo = ref<FormBaseInfo>(); // 表单信息
 const configurationInfo = ref<Configuration>(); // 配置信息
@@ -70,7 +75,7 @@ const cpns = ref<CpnInfo[]>([]);
 const searchCpns = ref<CpnInfo[]>([]); // 条件控件
 const isLoading = ref(true);
 
-getFormDetail(props.tableName).then((form: Form) => {
+getFormDetail().then((form: Form) => {
   formInfo.value = form.form;
   configurationInfo.value = form.configuration;
   cpns.value = form.cpns;
@@ -82,8 +87,6 @@ const tableCpns = computed(() => {
   return getTableListCpns(cpns.value);
 });
 
-// 查询数据
-const { listData, getFormListData, delData } = useFormData(props.tableName, props.headers);
 // 搜索条件
 const searchConditions = ref<OptionBodyQuery[]>([]);
 const onSearch = (conditions: OptionBodyQuery[]) => {

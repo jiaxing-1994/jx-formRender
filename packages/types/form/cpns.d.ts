@@ -157,3 +157,13 @@ export interface ActionJumpPage {
   url: string; // 跳转地址，http开头则为跳转外部链接，否则为跳转内部页面
   queryCode: string; // 通过代码获取参数，实现依靠其他控件的值动态变化的参数
 }
+
+export interface LabelValue {
+  label: string;
+  value: string | number;
+}
+
+export interface KeyValue {
+  key: string | number;
+  value: string;
+}
