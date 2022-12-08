@@ -2,7 +2,7 @@
 import { defineComponent, ref, h, resolveComponent, watch, useSlots, unref, PropType } from "vue";
 import type { WkForm } from "lc/pcComponents";
 import { useCreateCpn, useFormTools } from "lc/useHooks";
-import { CpnInfo } from "lc/types";
+import { CpnInfo, OptionBodyQuery } from "lc/types";
 import LcSearchLabel from "./LcSearchLabel.vue";
 
 const SEARCH_TYPE_TO_CPN = {
@@ -19,27 +19,30 @@ const SEARCH_TYPE_TO_CPN = {
 export default defineComponent({
   name: "LcSearchCondition",
   props: {
-    value: Object as PropType<Record<string, any>>,
+    value: Array as PropType<OptionBodyQuery[]>,
+    defaultSearchConditions: Array as PropType<OptionBodyQuery[]>,
     cpns: Array as PropType<CpnInfo[]>,
   },
   emits: {
     search: (model: Record<string, any>) => model,
   },
   setup(props, { emit }) {
-    const model = ref<Record<string, any>>(props.value || {}); // 搜索数据
+    const model = ref<Record<string, any>>({}); // 搜索数据
     const searchTypes = ref<Record<string, string>>({}); // 搜索类型
 
     // 初始化数据
     const initData = () => {
       props.cpns?.forEach((cpn) => {
+        const { cpnKey } = cpn;
+        const find = props.defaultSearchConditions?.find((item) => item.key === cpnKey);
         if (model.value[cpn.cpnKey] === undefined) {
           if (
             cpn.cpnType === "CHECKBOX" ||
             (cpn.cpnType === "SELECT" && cpn.extraInfo?.multiSelect)
           ) {
-            model.value[cpn.cpnKey] = [];
+            model.value[cpn.cpnKey] = find ? find.value : [];
           } else {
-            model.value[cpn.cpnKey] = null;
+            model.value[cpn.cpnKey] = find ? find.value : null;
           }
         }
         searchTypes.value[cpn.cpnKey] = cpn.searchMarks[0];
@@ -101,6 +104,8 @@ export default defineComponent({
       );
     };
     const createFormItem = (cpn: CpnInfo) => {
+      const { cpnKey } = cpn;
+      const find = props.defaultSearchConditions?.find((item) => item.key === cpnKey);
       return h(
         resolveComponent("wkFormItem"),
         {
@@ -112,6 +117,7 @@ export default defineComponent({
           label: () => {
             return h(LcSearchLabel, {
               cpn,
+              defaultType: find ? find.type : "",
               onChange: (value: string) => {
                 searchTypes.value[cpn.cpnKey] = value;
               },

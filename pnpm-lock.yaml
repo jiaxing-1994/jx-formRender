@@ -296,12 +296,12 @@ importers:
     specifiers:
       '@lc/apiService': workspace:^1.0.0
       '@lc/constants': workspace:^1.0.0
-      '@wk-libs/storage': 1.0.8
+      '@wk-libs/storage': 1.0.9
       '@wk-libs/utils': 1.0.7
     dependencies:
       '@lc/apiService': link:../apiService
       '@lc/constants': link:../constants
-      '@wk-libs/storage': 1.0.8
+      '@wk-libs/storage': 1.0.9
       '@wk-libs/utils': 1.0.7
 
 packages:
@@ -316,8 +316,8 @@ packages:
       - debug
     dev: false
 
-  /@wk-libs/storage/1.0.8:
-    resolution: {integrity: sha512-Xvdi3narlvid9UbfolbJqIkCBrwWZ1OByI6JDRgnYVQur3gm1gOEySc8LQmUVH1D4XLI6fAKEMz+NgK/1vphmQ==, tarball: '@wk-libs/storage/-/@wk-libs/storage-1.0.8.tgz'}
+  /@wk-libs/storage/1.0.9:
+    resolution: {integrity: sha512-57NIucFaFdTHw9JRZNB+8nO0JxO8Iv1SxOWsaZ9D27uGK2VVSva6dkLxokeOnd9R1Wz/qXii5IcTI3DH6ehqUQ==, tarball: '@wk-libs/storage/-/@wk-libs/storage-1.0.9.tgz'}
     dependencies:
       '@wk-libs/utils': 1.0.8
     dev: false

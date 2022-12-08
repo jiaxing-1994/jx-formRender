@@ -73,7 +73,7 @@ export default defineComponent({
 
     watchEffect(() => {
       initData(props.cpns || [], props.model || {});
-      console.log(linkHideOrShowCpnKeys.value);
+      linkHideOrShowCpnKeys.value;
     });
 
     // 触发关联动作
@@ -212,7 +212,6 @@ export default defineComponent({
     const createRender = (cpns: CpnInfo[]) => {
       const childrens: any[] = [];
       cpns.forEach((cpn) => {
-        console.log(1);
         const { cpnType } = cpn;
         const isLayoutCpn = LAYOUT_CPNS.find((item) => item.cpnType === cpnType);
         if (isLayoutCpn) {

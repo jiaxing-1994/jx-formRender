@@ -1,11 +1,11 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 console.log(process.env.VITE_FORMENGINE_BASE_URL);
 
 const replaceFile = (filePath) => {
   // eslint-disable-next-line consistent-return
-  fs.readFile(filePath, 'utf8', (err, data) => {
+  fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       return err;
     }
@@ -13,19 +13,18 @@ const replaceFile = (filePath) => {
     let str = data.toString();
     console.log(filePath);
 
-    str = str
-      .replace(/VITE_FORMENGINE_BASE_URL_REPLACE/g, process.env.VITE_FORMENGINE_BASE_URL)
+    str = str.replace(/VITE_FORMENGINE_BASE_URL_REPLACE/g, process.env.VITE_FORMENGINE_BASE_URL);
 
     // eslint-disable-next-line no-shadow,consistent-return
-    fs.writeFile(filePath, str, 'utf8', (err) => {
+    fs.writeFile(filePath, str, "utf8", (err) => {
       if (err) return err;
-      console.debug('替换成功', filePath);
+      console.debug("替换成功", filePath);
     });
   });
 };
 
 function fileReplace(filePath) {
-  fs.readdir(filePath, 'utf8', (err, files) => {
+  fs.readdir(filePath, "utf8", (err, files) => {
     if (err) {
       console.debug(err);
     } else {
@@ -42,8 +41,8 @@ function fileReplace(filePath) {
             const isFile = stats.isFile();
             const isDir = stats.isDirectory();
 
-            const fileExts = ['.js', '.json'];
-            if (isFile && fileExts.includes(extname) && filename !== 'replace.js') {
+            const fileExts = [".js", ".json"];
+            if (isFile && fileExts.includes(extname) && filename !== "replace.js") {
               replaceFile(filedir);
             }
 
@@ -58,5 +57,5 @@ function fileReplace(filePath) {
   });
 }
 
-const pathTarget = path.resolve('./');
+const pathTarget = path.resolve("./");
 fileReplace(pathTarget);

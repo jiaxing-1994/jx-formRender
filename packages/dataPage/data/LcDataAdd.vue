@@ -23,8 +23,8 @@ const props = defineProps<{
   headers?: Record<string, string>;
 }>();
 
-const { addData, getFormDetail } = useFormData(props.tableName);
-const { getDetailPageCpns } = useFormConfig(props.headers);
+const { addData, getFormDetail } = useFormData(props.tableName, props.headers);
+const { getDetailPageCpns } = useFormConfig();
 const cpns = ref<CpnInfo[]>([]);
 const isLoading = ref(true);
 getFormDetail().then((form: Form) => {

@@ -5,6 +5,7 @@
         name="search"
         :on-search="onSearch"
         :form="formInfo"
+        :default-search-conditions="defaultSearchConditions"
         :configuration="configurationInfo"
         :cpns="searchCpns"
       ></slot>
@@ -44,14 +45,19 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { isArray } from "@wk-libs/utils";
-import { useFormConfig, useFormData, useNamespace } from "@lc/useHooks";
+import { useFormConfig, useFormData, useFormTools, useNamespace } from "@lc/useHooks";
 import { Configuration, CpnInfo, Form, FormBaseInfo, OptionBodyQuery } from "../../types/index.d";
 
-const props = defineProps<{
-  tableName: string;
-  headers: Record<string, string>;
-  searchConditions: Record<string, any>;
-}>();
+const props = withDefaults(
+  defineProps<{
+    tableName: string;
+    headers: Record<string, string>;
+    searchConditions?: OptionBodyQuery[];
+  }>(),
+  {
+    searchConditions: () => [],
+  }
+);
 const emit = defineEmits<{
   (e: "onToDetail", id: string): void;
 }>();
@@ -87,9 +93,20 @@ const tableCpns = computed(() => {
   return getTableListCpns(cpns.value);
 });
 
+const { getUrlParams, parseSearchInUrl } = useFormTools();
+
+// 默认条件
+const defaultSearchConditions: OptionBodyQuery[] = [
+  ...parseSearchInUrl(getUrlParams(props.tableName, "searchOptions")),
+  ...props.searchConditions,
+];
 // 搜索条件
 const searchConditions = ref<OptionBodyQuery[]>([]);
 const onSearch = (conditions: OptionBodyQuery[]) => {
+  // 不存在搜索列表项中的默认搜索条件，目的为使用户无法清除默认固定参数
+  const notInSearch = defaultSearchConditions.filter((item) => {
+    return !cpns.value.find((cpn) => cpn.cpnKey == item.key);
+  });
   let orderByKey = "";
   let orderDirection = "ASC";
   if (configurationInfo.value) {
@@ -100,7 +117,10 @@ const onSearch = (conditions: OptionBodyQuery[]) => {
     }
   }
   searchConditions.value = conditions;
-  getFormListData(conditions, { orderBy: orderByKey, orderDirection: orderDirection });
+  getFormListData([...conditions, ...notInSearch], {
+    orderBy: orderByKey,
+    orderDirection: orderDirection,
+  });
 };
 
 const onDel = async (id: string) => {

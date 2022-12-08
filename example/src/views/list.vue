@@ -30,7 +30,7 @@ const tableName = query.tableName || "formTableName_9r38n6";
 const headers = {
   source: "DolphinSchedule",
 };
-const searchConditions = {};
+const searchConditions = [];
 const { push } = useRouter();
 const onToAdd = () => {
   push(`/add?tableName=${tableName}`);

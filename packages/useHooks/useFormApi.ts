@@ -42,11 +42,7 @@ import {
 const storage = new Storage("lc", { strategy: "h5" });
 const cacheHeaders: Record<string, string> = {};
 // 表单配置信息相关
-export const useFormConfig = (headers: Record<string, string> = {}) => {
-  setGlobalHeaders({
-    ...headers,
-  });
-
+export const useFormConfig = () => {
   const isMobile = window.location.pathname.indexOf("/mobile/") > -1;
 
   // 过滤隐藏/禁用的控件
@@ -125,14 +121,16 @@ export const useFormData = (tableName: string, headers: Record<string, string> =
     alert("数据库表名不能为空");
     throw new Error("数据库表名不能为空");
   }
-  const { getUrlParams, getHeadersInUrl } = useFormTools();
+  // 缓存header
+  const { getUrlParams, parseStringInUrl } = useFormTools();
   setGlobalHeaders({
-    ...getHeadersInUrl(getUrlParams(tableName, "headers")),
+    ...parseStringInUrl(getUrlParams(tableName, "headers")),
     ...headers,
   });
   if (Object.keys(headers).length > 0) {
     setGlobalHeaders(headers);
   }
+
   const { downloadFile } = useDownload(cacheHeaders);
   const listData = ref<Record<string, any>[]>([]);
 
@@ -403,7 +401,7 @@ export const useFormTools = () => {
   };
 
   // 处理url参数
-  const getUrlParams = (tableName: string, key?: string) => {
+  const getUrlParams = (tableName: string, key?: string): any => {
     const urlParams = parseUrlParams();
     const localParams = storage.getLocal(tableName);
     if (localParams) {
@@ -415,28 +413,67 @@ export const useFormTools = () => {
       }
     }
     storage.setLocal(tableName, urlParams);
-    if (key && urlParams[key]) {
-      return urlParams[key];
+    if (key) {
+      if (urlParams[key]) {
+        return urlParams[key];
+      }
+      return null;
     }
     return urlParams;
   };
-  // 处理url中的headers
-  const getHeadersInUrl = (headerStr: string): Record<string, string> => {
-    const headerArr = headerStr.split(",");
-    const headers: Record<string, string> = {};
-    headerArr.forEach((header) => {
-      const [key, value] = header.split(":");
-      headers[key] = value;
-    });
-    return headers;
+
+  // 处理url中的格式的参数(key:value,key:value)
+  const parseStringInUrl = (str: string | null): Record<string, string> => {
+    if (isString(str)) {
+      const strArr = str.split(",");
+      const strObj: Record<string, string> = {};
+      strArr.forEach((str) => {
+        const [key, value] = str.split(":");
+        strObj[key] = value;
+      });
+      return strObj;
+    }
+    return {};
+  };
+
+  // 处理url中的搜索条件格式参数 (key#value#type?;key#value#type?)
+  const parseSearchInUrl = (searchStr: string | null): OptionBodyQuery[] => {
+    if (isString(searchStr)) {
+      const keyRegx = /([\w_]+)#([\u4e00-\u9fa5\w\s-:\]\["'_,/+]+)#?(\w*)/;
+      const searchArr = searchStr.split(";");
+      const strRegx = /^[\w]+$/;
+      const result: OptionBodyQuery[] = [];
+      searchArr.forEach((item: string) => {
+        if (keyRegx.test(decodeURIComponent(item))) {
+          const matched: any = item.match(keyRegx);
+          const [, key, , type] = matched;
+          let [, , value] = matched;
+          try {
+            if (!strRegx.test(value)) {
+              value = JSON.parse(value);
+            }
+          } catch (e) {
+            value = String(value);
+          }
+          result.push({
+            key,
+            type: type || "is",
+            value,
+          });
+        }
+      });
+      return result;
+    }
+    return [];
   };
   return {
     getUrlParams,
-    getHeadersInUrl,
     getValidator,
     getParentTrees,
-    handleLayoutCpns,
     getTabelColumns,
+    handleLayoutCpns,
+    parseStringInUrl,
+    parseSearchInUrl,
     getSearchConditionData,
   };
 };

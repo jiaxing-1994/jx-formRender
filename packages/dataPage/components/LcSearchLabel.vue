@@ -37,6 +37,7 @@ import { useNamespace } from "lc/useHooks";
 import { getImg } from "../assets/imgs";
 
 const props = defineProps<{
+  defaultType: string;
   cpn: CpnInfo;
 }>();
 const emit = defineEmits<{
@@ -51,6 +52,13 @@ const compares = computed(() => {
     .filter((type) => props.cpn.searchMarks.includes(type.value));
 });
 const compareIndex = ref(0);
+const initIndex = () => {
+  if (props.defaultType) {
+    const findIndex = compares.value.findIndex((item) => item.value === props.defaultType);
+    compareIndex.value = Math.max(findIndex, 0);
+  }
+};
+initIndex();
 const onSwitchType = (index: number) => {
   compareIndex.value = index;
   emit("change", currCompare.value?.value);

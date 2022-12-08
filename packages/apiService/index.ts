@@ -25,7 +25,6 @@ Http.setRequestInterceptors((config) => {
 });
 Http.setResponseInterceptors(
   (response: AxiosResponse) => {
-    console.log(response);
     if (response.status === 200) {
       if (response.config.baseURL && response.config.baseURL.indexOf("/form-engine") > -1) {
         // 表单接口

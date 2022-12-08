@@ -6,10 +6,7 @@
   >
     <template #search="props">
       <div :class="[u('search-wrap'), 'pd-x_1', 'pd-y_2']">
-        <lc-search-condition
-          :value="searchConditions"
-          v-bind="props"
-        >
+        <lc-search-condition v-bind="props">
           <template #searchBtn="{ onSearch, onClearSearch }">
             <wk-form-item>
               <wk-button
@@ -78,11 +75,12 @@ import {
   LcTableList,
 } from "../../components";
 import { useNamespace } from "lc/useHooks";
+import { OptionBodyQuery } from "lc/types";
 
 defineProps<{
   tableName: string; // 表单数据库表名
   headers: Record<string, string>; // 默认请求头
-  searchConditions: Record<string, any>; // 默认查询条件
+  searchConditions: OptionBodyQuery[]; // 默认查询条件
 }>();
 const emit = defineEmits<{
   (e: "onToAdd"): void;
