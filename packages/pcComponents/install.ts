@@ -9,7 +9,6 @@ const installPcComponents: Plugin = {
   install: (app: App<Element>) => {
     app.use(antDesign);
     const globalComponents = import.meta.globEager("./components/**/*.vue");
-    console.log(globalComponents);
     setupGlobleComponents(app, globalComponents);
   },
 };
