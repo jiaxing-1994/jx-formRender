@@ -1,7 +1,7 @@
 import { h, resolveComponent } from "vue";
 import { DEFAULT_TYPE_TO_CPN, STRING_VALUE_TO_DISPLAY } from "@lc/constants";
 import { isArray, isBoolean, isObject } from "@wk-libs/utils";
-import { CpnInfo } from "../types";
+import { CpnInfo } from "@lc/types";
 
 export function useCreateCpn() {
   // 组件工厂函数，能够创建最基础的组件及其属性，对于特殊属性配置需要handleProps函数中处理
@@ -13,9 +13,6 @@ export function useCreateCpn() {
   ) => {
     const { cpnType } = cpn;
     if (keyMap[cpnType]) {
-      console.log(keyMap[cpnType]);
-      console.log(resolveComponent(keyMap[cpnType]));
-      console.log(handleProps(cpn, props));
       return h(resolveComponent(keyMap[cpnType]), handleProps(cpn, props));
     }
     return null;

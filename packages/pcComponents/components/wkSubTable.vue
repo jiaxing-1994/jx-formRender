@@ -4,7 +4,7 @@ import { isArray } from "@wk-libs/utils";
 import { useCreateCpn } from "@lc/useHooks";
 import WkTable from "./tableSelf/wkTable.vue";
 import WkButton from "./wkButton.vue";
-import { CpnInfo } from "lc/types";
+import type { CpnInfo } from "@lc/types";
 
 export default defineComponent({
   props: {

@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { ref, useAttrs, watchEffect } from "vue";
 import { useFormData, useFormTools } from "@lc/useHooks";
-import { RegionType } from "lc/types";
+import type { RegionType } from "@lc/types";
 
 const parentAttrs = useAttrs();
 

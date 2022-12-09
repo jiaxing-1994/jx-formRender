@@ -16,6 +16,7 @@
   },
   "include": [
     "packages",
+    "packages/**/*.d.ts",
     "node_modules"
   ],
   "exclude": [

@@ -1,19 +1,29 @@
 {
   "name": "@lc/dataPage",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "",
-  "main": "install.ts",
+  "main": "dist/index_umd.js",
+  "module": "dist/index_es.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build --config ../../build/vite.dataPage.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lc/formRender": "workspace:^1.0.0",
-    "@lc/pcComponents": "workspace:^1.0.0",
+    "@lc/formRender": "workspace:^1.0.3",
+    "@lc/pcComponents": "workspace:^1.0.2",
     "@lc/style": "workspace:^1.0.0",
-    "@lc/useHooks": "workspace:^1.0.0",
-    "@wk-libs/utils": "1.0.6"
+    "@lc/types": "workspace:^1.0.0",
+    "@lc/useHooks": "workspace:^1.0.3",
+    "@wk-libs/utils": "^1.0.8"
+  },
+  "peerDependencies": {
+    "@lc/formRender": "latest",
+    "@lc/pcComponents": "latest",
+    "@lc/style": "latest",
+    "@lc/types": "latest",
+    "@lc/useHooks": "latest",
+    "@wk-libs/utils": "^1.0.8"
   }
 }

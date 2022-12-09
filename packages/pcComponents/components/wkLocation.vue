@@ -46,7 +46,7 @@ import { ref, watch, nextTick, onBeforeUnmount } from "vue";
 import { CompassOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import { useAPI, useMap } from "@lc/useHooks";
-import { LocationValue } from "lc/types";
+import type { LocationValue } from "@lc/types";
 
 const props = defineProps<{
   value: LocationValue | null;

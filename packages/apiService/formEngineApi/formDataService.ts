@@ -1,5 +1,5 @@
 import Http, { ApiServeType } from "../index";
-import { ExportResult, ListUrlQuery, OptionBodyQuery } from "../../types";
+import { ExportResult, ListUrlQuery, OptionBodyQuery } from "@lc/types";
 
 export function postFormDataSingleService(
   tableName: string,

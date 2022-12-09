@@ -17,7 +17,6 @@
     "rootDir": ".",
     "types": [
       "node",
-      "vite/client"
     ],
     "paths": {
       "lc/*": [
@@ -28,6 +27,7 @@
   "include": [
     "*.d.ts",
     "*.ts",
+    "./packages/types/**/*.d.ts",
     "node_modules"
   ],
   "files": [],

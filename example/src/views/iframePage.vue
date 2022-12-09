@@ -9,10 +9,13 @@ const Route = useRoute();
 
 const getIframeUrl = () => {
   const { url, urlQuery } = Route.query;
-  if (url.indexOf("?") > -1) {
-    return `${url}&${urlQuery}`;
+  if (url) {
+    if (url.indexOf("?") > -1) {
+      return `${url}&${urlQuery || {}}`;
+    }
+    return `${url}?${urlQuery || {}}`;
   }
-  return `${url}?${urlQuery}`;
+  return null;
 };
 </script>
 

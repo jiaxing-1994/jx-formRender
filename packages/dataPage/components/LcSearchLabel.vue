@@ -31,9 +31,9 @@
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
-import { CpnInfo } from "lc/types";
-import { CPN_TYPE_TO_SEARCH_MARKS, SEARCH_MARK_INFO } from "lc/constants";
-import { useNamespace } from "lc/useHooks";
+import { CpnInfo } from "@lc/types";
+import { CPN_TYPE_TO_SEARCH_MARKS, SEARCH_MARK_INFO } from "@lc/constants";
+import { useNamespace } from "@lc/useHooks";
 import { getImg } from "../assets/imgs";
 
 const props = defineProps<{

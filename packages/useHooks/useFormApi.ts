@@ -37,7 +37,7 @@ import {
   OperationalTypeEnum,
   OptionBodyQuery,
   RuleType,
-} from "../types/index.d";
+} from "@lc/types";
 
 const storage = new Storage("lc", { strategy: "h5" });
 const cacheHeaders: Record<string, string> = {};
@@ -236,11 +236,15 @@ export const useFormTools = () => {
         });
       }
       if (isUseful(value[key]) && !isArray(value[key])) {
+        let valueData = value[key];
+        if (["in", "nin"].includes(type[key])) {
+          valueData = [value[key]];
+        }
         // 有效值
         result.push({
           key,
           type: type[key],
-          value: value[key],
+          value: valueData,
         });
       }
     }
@@ -604,9 +608,9 @@ export const useFormExtraApi = () => {
     return await getExtraApiByIdService(id);
   };
   // 获取外部接口值
-  const getExtraApiResult = async <T>(id: string) => {
+  const getExtraApiResult = async <D>(id: string) => {
     const extraApi = await getExtraById(id);
-    return async (keyword: string): Promise<T> => {
+    return async (keyword: string): Promise<D> => {
       const { url, method, searchKey, idKey, onSuccess, onError } = extraApi;
       const query: Record<string, string | number> = {};
       const params: Record<string, string | number> = {};
@@ -615,7 +619,7 @@ export const useFormExtraApi = () => {
       } else if (keyword) {
         query[searchKey || idKey || "name"] = keyword;
       }
-      return await getOutSideApi<T>(
+      return await getOutSideApi<Record<string, string | number>, D>(
         {
           url: replaceUrl(url),
           method,
@@ -637,12 +641,12 @@ export const useFormExtraApi = () => {
     throw new Error("url类型错误");
   };
   // 调用外部接口
-  const getOutSideApi = async <T>(
+  const getOutSideApi = async <Q, D>(
     options: AxiosRequestConfig = {},
     onSuccess?: string,
     onError?: string
-  ): Promise<T> => {
-    const res = await Http.request<T>(options);
+  ): Promise<D> => {
+    const res = await Http.request<Q, D>(options);
     let result = res;
     if (onSuccess) {
       result = new Function("data", onSuccess)(res);

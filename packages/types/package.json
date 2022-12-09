@@ -1,0 +1,13 @@
+{
+  "name": "@lc/types",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.d.ts",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

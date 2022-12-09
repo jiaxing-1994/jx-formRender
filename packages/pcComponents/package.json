@@ -1,22 +1,20 @@
 {
   "name": "@lc/pcComponents",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "",
-  "main": "install.ts",
+  "main": "dist/index_umd.js",
+  "module": "dist/index_es.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build --config ../../build/vite.pcComponents.config.js"
   },
-  "files": [
-    "components",
-    "types"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "@lc/useHooks": "workspace:^1.0.0",
+    "@lc/types": "workspace:^1.0.0",
+    "@lc/useHooks": "workspace:^1.0.3",
     "@tiptap/core": "2.0.0-beta.199",
     "@tiptap/extension-document": "2.0.0-beta.204",
     "@tiptap/extension-paragraph": "2.0.0-beta.204",
@@ -30,7 +28,14 @@
     "@tiptap/vue-3": "~2.0.0-beta.96",
     "@wk-libs/utils": "1.0.6",
     "@wk-libs/validator": "1.0.18",
+    "ant-design-vue": "^3.2.3"
+  },
+  "peerDependencies": {
     "ant-design-vue": "^3.2.3",
-    "vite": "^2.7.13"
+    "@ant-design/icons-vue": "^6.1.0",
+    "@wk-libs/utils": "^1.0.6",
+    "@wk-libs/validator": "^1.0.18",
+    "@lc/useHooks": "^1.0.3",
+    "@lc/types": "^1.0.0"
   }
 }

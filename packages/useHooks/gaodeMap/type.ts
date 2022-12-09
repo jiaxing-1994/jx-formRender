@@ -3,4 +3,4 @@ export type PointType = {
   lng?: number;
   latitude?: number;
   longitude?: number;
-}
+};

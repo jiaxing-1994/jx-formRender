@@ -13,7 +13,10 @@ export function useAPI() {
   };
   // 逆编码
   const getAddress = async (point: [number, number]) => {
-    return await GDMap.getAddress(point);
+    return await GDMap.getAddress({
+      lat: point[0],
+      lng: point[1],
+    });
   };
   return {
     getAddress,

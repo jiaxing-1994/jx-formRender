@@ -74,8 +74,8 @@ import {
   LcSearchCondition,
   LcTableList,
 } from "../../components";
-import { useNamespace } from "lc/useHooks";
-import { OptionBodyQuery } from "lc/types";
+import { useNamespace } from "@lc/useHooks";
+import { OptionBodyQuery } from "@lc/types";
 
 defineProps<{
   tableName: string; // 表单数据库表名

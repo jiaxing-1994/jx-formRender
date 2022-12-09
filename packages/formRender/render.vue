@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent, h, ref, watch, watchEffect, resolveComponent, PropType } from "vue";
+import { defineComponent, h, ref, watchEffect, resolveComponent, PropType } from "vue";
 import type { WkForm, RuleType } from "@lc/pcComponents";
 import { useCreateCpn, useNamespace, useFormTools, useFormActions } from "@lc/useHooks";
 import { LAYOUT_CPNS } from "@lc/constants";
-import { CpnInfo } from "lc/types";
+import { CpnInfo } from "@lc/types";
 
 export default defineComponent({
   props: {

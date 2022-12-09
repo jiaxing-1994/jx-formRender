@@ -1,8 +1,7 @@
-import { AxiosResponse } from "@wk-libs/http";
+import WkHttp, { AxiosRequestConfig, AxiosResponse, AxiosError } from "@wk-libs/http";
 export * from "./formEngineApi/formService";
 export * from "./formEngineApi/formDataService";
 export * from "./formEngineApi/formExtraApiService";
-import WkHttp, { AxiosRequestConfig } from "@wk-libs/http";
 
 const globalHeaders: Record<string, string> = {};
 
@@ -17,7 +16,7 @@ const Http = new WkHttp({
   timeout: 40000,
 });
 
-Http.setRequestInterceptors((config) => {
+Http.setRequestInterceptors((config: AxiosRequestConfig) => {
   if (config.headers) {
     Object.assign(config.headers, globalHeaders);
   }
@@ -38,8 +37,26 @@ Http.setResponseInterceptors(
     }
     return false;
   },
-  (error: any) => {
-    console.log(error);
+  (error: AxiosError) => {
+    if (error.response) {
+      const { status, data, config } = error.response;
+      if (config.baseURL && config.baseURL.indexOf("/form-engine") > -1) {
+        // 表单接口
+        if ((data as ApiResult<null>).message) {
+          alert((data as ApiResult<null>).message);
+          return Promise.reject(error);
+        }
+      }
+      switch (status) {
+        case 404:
+          alert("接口不存在");
+          break;
+        // @ts-ignore
+        case /^5\d+/.test(status):
+          alert("服务器错误");
+          break;
+      }
+    }
     return Promise.reject(error);
   }
 );

@@ -1,5 +1,5 @@
 import Http, { ApiServeType } from "../index";
-import { ExtraApi } from "../../types/formService/formExtraApiService";
+import { ExtraApi } from "@lc/types";
 
 enum Api {
   postExratApiList = "/interface/pageList",

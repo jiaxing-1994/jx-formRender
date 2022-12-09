@@ -34,8 +34,8 @@
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
-import { useFormData } from "lc/useHooks";
-import { Configuration, FileType, FormBaseInfo } from "lc/types";
+import { useFormData } from "@lc/useHooks";
+import { Configuration, FileType, FormBaseInfo } from "@lc/types";
 
 const props = defineProps<{
   form: FormBaseInfo;

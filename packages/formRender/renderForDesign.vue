@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import draggable from "vuedraggable";
-import { FormBaseInfo } from "lc/types";
+import { FormBaseInfo } from "@lc/types";
 defineProps<{
   list: FormBaseInfo[];
 }>();

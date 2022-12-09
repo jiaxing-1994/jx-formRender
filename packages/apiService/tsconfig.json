@@ -5,7 +5,6 @@
     "module": "esnext",
     "baseUrl": ".",
     "sourceMap": false,
-    "lib": ["DOM.Iterable", "DOM", "ES2015"],
     "moduleResolution": "node",
     "allowJs": false,
     "strict": true,
@@ -14,8 +13,10 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "removeComments": false,
-    "types": [
-      "node"
-    ],
+    "paths": {
+      "lc/*": [
+        "../../packages/*"
+      ]
+    }
   }
 }

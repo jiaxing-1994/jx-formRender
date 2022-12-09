@@ -1,0 +1,24 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "/Users/huangjiaxing/works/wk/projects/low-code"
+  },
+  "1 info pnpm": {
+    "err": {
+      "name": "Error",
+      "message": "not found: inint",
+      "code": "ENOENT",
+      "stack": "Error: not found: inint\n    at getNotFoundError (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:21148:51)\n    at Function.whichSync [as sync] (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:21225:13)\n    at getCommandAbsolutePathSync (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:22903:44)\n    at default_1 (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:22912:32)\n    at /Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:184716:39"
+    }
+  },
+  "2 error pnpm": {
+    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+    "prefix": "/Users/huangjiaxing/works/wk/projects/low-code",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: inint",
+      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+      "stack": "Error: not found: inint\n    at getNotFoundError (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:21148:51)\n    at Function.whichSync [as sync] (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:21225:13)\n    at getCommandAbsolutePathSync (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:22903:44)\n    at default_1 (/Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:22912:32)\n    at /Users/huangjiaxing/.nvm/versions/node/v16.13.0/lib/node_modules/pnpm/dist/pnpm.cjs:184716:39"
+    }
+  }
+}

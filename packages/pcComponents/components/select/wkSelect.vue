@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref, watch, useAttrs, onBeforeUnmount } from "vue";
 import { useFormExtraApi } from "@lc/useHooks";
-import { KeyValue } from "lc/types";
+import type { KeyValue } from "@lc/types";
 
 const parentAttrs = useAttrs();
 

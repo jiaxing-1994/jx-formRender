@@ -12,8 +12,8 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { useFormData } from "lc/useHooks";
-import { Configuration, FormBaseInfo, OptionBodyQuery } from "lc/types";
+import { useFormData } from "@lc/useHooks";
+import { Configuration, FormBaseInfo, OptionBodyQuery } from "@lc/types";
 
 const props = defineProps<{
   form: FormBaseInfo;

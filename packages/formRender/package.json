@@ -1,19 +1,29 @@
 {
   "name": "@lc/formRender",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
-  "main": "install.ts",
+  "main": "dist/index_umd.js",
+  "module": "dist/index_es.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build --config ../../build/vite.formRender.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@lc/constants": "workspace:^1.0.0",
-    "@lc/pcComponents": "workspace:^1.0.0",
-    "@lc/useHooks": "workspace:^1.0.0",
+    "@lc/pcComponents": "workspace:^1.0.2",
+    "@lc/types": "workspace:^1.0.0",
+    "@lc/useHooks": "workspace:^1.0.3",
+    "vue": "^3.2.32",
+    "vuedraggable": "^4.1.0"
+  },
+  "peerDependencies": {
+    "@lc/constants": "latest",
+    "@lc/pcComponents": "latest",
+    "@lc/types": "latest",
+    "@lc/useHooks": "latest",
     "vue": "^3.2.32",
     "vuedraggable": "^4.1.0"
   }

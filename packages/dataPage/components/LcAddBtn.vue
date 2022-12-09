@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FormBaseInfo } from "lc/types";
+import { FormBaseInfo } from "@lc/types";
 
 defineProps<{
   form: FormBaseInfo | undefined;

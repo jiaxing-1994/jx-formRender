@@ -35,8 +35,8 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useFormTools, useFormConfig } from "lc/useHooks";
-import { Configuration, CpnInfo, FormBaseInfo } from "lc/types";
+import { useFormTools, useFormConfig } from "@lc/useHooks";
+import { Configuration, CpnInfo, FormBaseInfo } from "@lc/types";
 
 const props = defineProps<{
   cpns: CpnInfo[];

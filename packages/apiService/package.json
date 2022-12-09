@@ -1,15 +1,20 @@
 {
   "name": "@lc/apiService",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "",
-  "main": "index.ts",
+  "main": "dist/index_umd.js",
+  "module": "dist/index_es.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup --config ../../build/rollup.apiService.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@wk-libs/http": "^1.0.7"
+    "@lc/types": "workspace:^1.0.0",
+    "@wk-libs/http": "^1.0.14"
+  },
+  "peerDependencies": {
+    "@wk-libs/http": "latest"
   }
 }

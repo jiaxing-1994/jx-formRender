@@ -5,11 +5,8 @@ export default class GDMap {
   public map: any;
   private infoWindow: any;
   private options: any;
-  private location: any;
-  private static location: [number, number] | null;
   constructor(id: string | HTMLElement, options: any) {
     this.options = options;
-    this.location = null;
     this.infoWindow = null;
     this.createMap(id);
   }
@@ -28,7 +25,7 @@ export default class GDMap {
     });
   }
 
-  static lngLat(point: PointType | [number, number]) {
+  static lngLat(point: PointType) {
     if (isArray(point) && point.length === 2) {
       return new AMap.LngLat(point[0], point[1]);
     }
@@ -46,7 +43,7 @@ export default class GDMap {
     return new AMap.LngLat(lng, lat);
   }
 
-  setCenter(point: PointType | [number, number]) {
+  setCenter(point: PointType) {
     const lngLat = GDMap.lngLat(point);
     this.map.setCenter(lngLat);
   }
@@ -56,7 +53,7 @@ export default class GDMap {
   }
 
   // 逆编码
-  static getAddress(point: PointType | [number, number]) {
+  static getAddress(point: PointType) {
     const lngLat = GDMap.lngLat(point);
     return new Promise((resolve) => {
       AMap.plugin("AMap.Geocoder", function () {
@@ -82,10 +79,10 @@ export default class GDMap {
   // 定位
   static getLocation() {
     return new Promise((resolve, reject) => {
-      if (this.location) {
-        resolve(this.location);
-        return;
-      }
+      // if (this.location) {
+      //   resolve(this.location);
+      //   return;
+      // }
       AMap.plugin("AMap.Geolocation", () => {
         const geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
@@ -101,8 +98,7 @@ export default class GDMap {
         });
         geolocation.getCurrentPosition((status: string, result: any) => {
           if (status === "complete") {
-            this.location = [result.position.lng, result.position.lat];
-            resolve(this.location);
+            resolve([result.position.lng, result.position.lat]);
           } else {
             switch (result.originMessage) {
               case "Timeout expired":
@@ -123,8 +119,8 @@ export default class GDMap {
   // 绘制信息窗
   createInfoWindow(
     content: string | HTMLElement,
-    point?: PointType | [number, number],
-    options?: {}
+    point?: PointType,
+    options: Record<string, any> = {}
   ) {
     if (!this.infoWindow) {
       this.infoWindow = new AMap.InfoWindow({
@@ -159,7 +155,7 @@ export default class GDMap {
     return marker;
   }
 
-  onEvent(name: string, callback: Function, isOff = false) {
+  onEvent(name: string, callback: typeof Function, isOff = false) {
     if (isOff) {
       this.map.off(name, callback);
     } else {

@@ -17,11 +17,6 @@
       "node",
       "vite/client"
     ],
-    "paths": {
-      "lc/*": [
-        "../../packages/*"
-      ]
-    }
   },
   "include": [
     "**/*.d.ts",

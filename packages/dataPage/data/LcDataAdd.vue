@@ -16,7 +16,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useFormConfig, useFormData } from "@lc/useHooks";
 import { FormRender } from "@lc/formRender";
-import { CpnInfo, Form } from "lc/types";
+import { CpnInfo, Form } from "@lc/types";
 
 const props = defineProps<{
   tableName: string;

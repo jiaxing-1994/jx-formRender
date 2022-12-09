@@ -21,7 +21,7 @@
 import { computed, ref } from "vue";
 import { useFormConfig, useFormData } from "@lc/useHooks";
 import { FormRender } from "@lc/formRender";
-import { Configuration, CpnInfo, Form } from "lc/types";
+import { Configuration, CpnInfo, Form } from "@lc/types";
 
 const props = defineProps<{
   tableName: string;

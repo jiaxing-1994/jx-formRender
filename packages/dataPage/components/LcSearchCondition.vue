@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref, h, resolveComponent, watch, useSlots, unref, PropType } from "vue";
-import type { WkForm } from "lc/pcComponents";
-import { useCreateCpn, useFormTools } from "lc/useHooks";
-import { CpnInfo, OptionBodyQuery } from "lc/types";
+import type { WkForm } from "@lc/pcComponents";
+import { useCreateCpn, useFormTools } from "@lc/useHooks";
+import { CpnInfo, OptionBodyQuery } from "@lc/types";
 import LcSearchLabel from "./LcSearchLabel.vue";
 
 const SEARCH_TYPE_TO_CPN = {
